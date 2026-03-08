@@ -3,23 +3,23 @@
 # SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
 # IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
 # SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
-# Start of session at: Wed Feb 25 15:29:40 2026
-# Process ID         : 3415
-# Current directory  : /home/minhanh/picorv32/scripts/vivado
+# Start of session at: Sun Mar  8 16:34:05 2026
+# Process ID         : 31242
+# Current directory  : /home/minhanh/pipipip/scripts/vivado
 # Command line       : vivado
-# Log file           : /home/minhanh/picorv32/scripts/vivado/vivado.log
-# Journal file       : /home/minhanh/picorv32/scripts/vivado/vivado.jou
+# Log file           : /home/minhanh/pipipip/scripts/vivado/vivado.log
+# Journal file       : /home/minhanh/pipipip/scripts/vivado/vivado.jou
 # Running On         : minhanh-VMware-Virtual-Platform
 # Platform           : Ubuntu
 # Operating System   : Ubuntu 24.04.3 LTS
-# Processor Detail   : AMD Ryzen 5 5600H with Radeon Graphics
-# CPU Frequency      : 3293.799 MHz
+# Processor Detail   : AMD Ryzen 7 4800H with Radeon Graphics
+# CPU Frequency      : 2894.563 MHz
 # CPU Physical cores : 4
 # CPU Logical cores  : 4
 # Host memory        : 8277 MB
 # Swap memory        : 4053 MB
 # Total Virtual      : 12331 MB
-# Available Virtual  : 10819 MB
+# Available Virtual  : 8862 MB
 #-----------------------------------------------------------
 start_gui
 WARNING: [Board 49-26] cannot add Board Part digilentinc.com:genesys2:part0:1.1 available at /tools/Xilinx/Vivado/2024.2/data/boards/board_files/genesys2/H/board.xml as part xc7k325tffg900-2 specified in board_part file is either invalid or not available
@@ -28,7 +28,6 @@ open_hw_manager
 INFO: [IP_Flow 19-234] Refreshing IP repositories
 INFO: [IP_Flow 19-1704] No user IP repositories specified
 INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2024.2/data/ip'.
-open_hw_manager: Time (s): cpu = 00:00:06 ; elapsed = 00:00:08 . Memory (MB): peak = 7556.691 ; gain = 81.145 ; free physical = 2369 ; free virtual = 9591
 connect_hw_server -allow_non_jtag
 INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
 INFO: [Labtools 27-2222] Launching hw_server...
@@ -56,13 +55,6 @@ open_hw_target
 INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210319B7C678A
 current_hw_device [get_hw_devices xc7a100t_0]
 refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a100t_0] 0]
-INFO: [Labtools 27-1434] Device xc7a100t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
-set_property PROBES.FILE {} [get_hw_devices xc7a100t_0]
-set_property FULL_PROBES.FILE {} [get_hw_devices xc7a100t_0]
-set_property PROGRAM.FILE {/home/minhanh/picorv32/scripts/vivado/synth_system.bit} [get_hw_devices xc7a100t_0]
-program_hw_devices [get_hw_devices xc7a100t_0]
-INFO: [Labtools 27-3164] End of startup status: HIGH
-refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
 INFO: [Labtools 27-1434] Device xc7a100t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
 disconnect_hw_server localhost:3121
 connect_hw_server -allow_non_jtag
@@ -88,17 +80,9 @@ INFO: [Labtools 27-2221] Launch Output:
 
 
 
-connect_hw_server: Time (s): cpu = 00:00:00.82 ; elapsed = 00:00:08 . Memory (MB): peak = 7714.938 ; gain = 0.000 ; free physical = 5142 ; free virtual = 8995
 open_hw_target
 INFO: [Labtoolstcl 44-466] Opening hw_target localhost:3121/xilinx_tcf/Digilent/210319B7C678A
-set_property PROGRAM.FILE {/home/minhanh/picorv32/scripts/vivado/synth_system.bit} [get_hw_devices xc7a100t_0]
 current_hw_device [get_hw_devices xc7a100t_0]
 refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a100t_0] 0]
 INFO: [Labtools 27-1434] Device xc7a100t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
-set_property PROBES.FILE {} [get_hw_devices xc7a100t_0]
-set_property FULL_PROBES.FILE {} [get_hw_devices xc7a100t_0]
-set_property PROGRAM.FILE {/home/minhanh/picorv32/scripts/vivado/synth_system.bit} [get_hw_devices xc7a100t_0]
-program_hw_devices [get_hw_devices xc7a100t_0]
-INFO: [Labtools 27-3164] End of startup status: HIGH
-refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
-INFO: [Labtools 27-1434] Device xc7a100t (JTAG device index = 0) is programmed with a design that has no supported debug core(s) in it.
+disconnect_hw_server localhost:3121

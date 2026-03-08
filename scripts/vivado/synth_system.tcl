@@ -1,4 +1,14 @@
 read_verilog system.v
+# ── SD Card modules ──────────────────────────────────────────────────
+read_verilog sd_spi_master.v
+read_verilog sd_controller.v
+read_verilog sd_read_block.v
+read_verilog sd_bootloader.v
+read_verilog spi_arbiter.v
+read_verilog ram_arbiter.v
+
+
+
 read_verilog ../../picorv32.v
 read_verilog ../../picosoc/simpleuart.v
 

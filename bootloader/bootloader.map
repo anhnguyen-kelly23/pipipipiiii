@@ -1,0 +1,68 @@
+
+Discarded input sections
+
+ .text          0x0000000000000000        0x0 bootloader.o
+ .data          0x0000000000000000        0x0 bootloader.o
+ .bss           0x0000000000000000        0x0 bootloader.o
+ .comment       0x0000000000000000       0x13 bootloader.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+BOOTROM          0x0000000000000000 0x0000000000002000 xr
+BOOTRAM          0x0000000000001800 0x0000000000000800 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD bootloader.o
+LOAD /opt/riscv/lib/gcc/riscv64-unknown-elf/11.1.0/rv32i/ilp32/libgcc.a
+
+.text           0x0000000000000000       0xf8
+ *(.init)
+ .init          0x0000000000000000       0x44 bootloader.o
+                0x0000000000000000                _start
+ *(.text)
+ *(.text.*)
+ .text.bootloader_main
+                0x0000000000000044       0xb4 bootloader.o
+                0x0000000000000044                bootloader_main
+ *(.rodata)
+ *(.rodata.*)
+                0x00000000000000f8                . = ALIGN (0x4)
+
+.rela.dyn       0x00000000000000f8        0x0
+ .rela.init     0x00000000000000f8        0x0 bootloader.o
+
+.data           0x0000000000001800        0x0 load address 0x00000000000000f8
+                0x0000000000001800                _sdata = .
+ *(.data)
+ *(.data.*)
+                0x0000000000001800                . = ALIGN (0x4)
+                0x0000000000001800                _edata = .
+                0x00000000000000f8                _sidata = LOADADDR (.data)
+
+.bss            0x0000000000001800        0x0 load address 0x00000000000000f8
+                0x0000000000001800                _sbss = .
+ *(.bss)
+ *(.bss.*)
+ *(COMMON)
+                0x0000000000001800                . = ALIGN (0x4)
+                0x0000000000001800                _ebss = .
+
+.stack          0x0000000000001800      0x200 load address 0x00000000000000f8
+                0x0000000000001800                . = ALIGN (0x10)
+                0x0000000000001a00                . = (. + 0x200)
+ *fill*         0x0000000000001800      0x200 
+                0x0000000000001a00                _stack_top = .
+
+/DISCARD/
+ *(.comment)
+ *(.note.*)
+ *(.eh_frame*)
+OUTPUT(bootloader.elf elf32-littleriscv)
+
+.riscv.attributes
+                0x0000000000000000       0x1c
+ .riscv.attributes
+                0x0000000000000000       0x1c bootloader.o

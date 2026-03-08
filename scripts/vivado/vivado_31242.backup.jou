@@ -3,23 +3,23 @@
 # SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
 # IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
 # SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
-# Start of session at: Wed Feb 25 23:23:37 2026
-# Process ID         : 4743
-# Current directory  : /home/minhanh/picorv32/scripts/vivado
+# Start of session at: Sun Mar  8 16:34:05 2026
+# Process ID         : 31242
+# Current directory  : /home/minhanh/pipipip/scripts/vivado
 # Command line       : vivado
-# Log file           : /home/minhanh/picorv32/scripts/vivado/vivado.log
-# Journal file       : /home/minhanh/picorv32/scripts/vivado/vivado.jou
+# Log file           : /home/minhanh/pipipip/scripts/vivado/vivado.log
+# Journal file       : /home/minhanh/pipipip/scripts/vivado/vivado.jou
 # Running On         : minhanh-VMware-Virtual-Platform
 # Platform           : Ubuntu
 # Operating System   : Ubuntu 24.04.3 LTS
-# Processor Detail   : AMD Ryzen 5 5600H with Radeon Graphics
-# CPU Frequency      : 3293.799 MHz
+# Processor Detail   : AMD Ryzen 7 4800H with Radeon Graphics
+# CPU Frequency      : 2894.563 MHz
 # CPU Physical cores : 4
 # CPU Logical cores  : 4
 # Host memory        : 8277 MB
 # Swap memory        : 4053 MB
 # Total Virtual      : 12331 MB
-# Available Virtual  : 9892 MB
+# Available Virtual  : 8862 MB
 #-----------------------------------------------------------
 start_gui
 open_hw_manager
@@ -27,9 +27,9 @@ connect_hw_server -allow_non_jtag
 open_hw_target
 current_hw_device [get_hw_devices xc7a100t_0]
 refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a100t_0] 0]
-set_property PROBES.FILE {} [get_hw_devices xc7a100t_0]
-set_property FULL_PROBES.FILE {} [get_hw_devices xc7a100t_0]
-set_property PROGRAM.FILE {/home/minhanh/Downloads/synth_system.bit} [get_hw_devices xc7a100t_0]
-program_hw_devices [get_hw_devices xc7a100t_0]
-refresh_hw_device [lindex [get_hw_devices xc7a100t_0] 0]
+disconnect_hw_server localhost:3121
+connect_hw_server -allow_non_jtag
+open_hw_target
+current_hw_device [get_hw_devices xc7a100t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a100t_0] 0]
 disconnect_hw_server localhost:3121

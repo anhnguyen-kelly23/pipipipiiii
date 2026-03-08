@@ -660,7 +660,12 @@ module system (
 	wire boot_done;
 	wire init_phase = !init_done;   // 1 during SD init, 0 after
 	wire boot_phase = !boot_done;   // 1 during boot copy, 0 after
-
+	// ============================================
+	// CS control signals (MỚI)
+	// ============================================
+	wire ctrl_cs_enable;
+	wire read_cs_enable;
+	wire spi_cs_enable;
 	// ============================================
 	// SPI wires: Controller ↔ Arbiter
 	// ============================================
@@ -719,80 +724,84 @@ module system (
 	// SD SPI Master
 	// ============================================
 	sd_spi_master spi_master (
-		.clk(clk),
-		.resetn(resetn),
-		.tx_data(spi_tx_data),
-		.tx_valid(spi_tx_valid),
-		.tx_ready(spi_tx_ready),
-		.rx_data(spi_rx_data),
-		.rx_valid(spi_rx_valid),
-		.clk_div(16'd250),
-		.sd_clk(sd_clk),
-		.sd_mosi(sd_mosi),
-		.sd_miso(sd_miso),
-		.sd_cs(sd_cs)
-	);
+    		.clk(clk),
+    		.resetn(resetn),
+    		.tx_data(spi_tx_data),
+    		.tx_valid(spi_tx_valid),
+    		.tx_ready(spi_tx_ready),
+    		.rx_data(spi_rx_data),
+    		.rx_valid(spi_rx_valid),
+    		.cs_enable(spi_cs_enable),   // MỚI
+    		.clk_div(16'd250),
+    		.sd_clk(sd_clk),
+   		.sd_mosi(sd_mosi),
+    		.sd_miso(sd_miso),
+    		.sd_cs(sd_cs)
+);
 
 	// ============================================
 	// SPI Arbiter
 	//   init_phase=1 → controller owns SPI bus
 	//   init_phase=0 → reader owns SPI bus
 	// ============================================
-	spi_arbiter spi_arb (
-		.clk(clk),
-		.resetn(resetn),
-		.init_phase(init_phase),
-		// Controller side
-		.ctrl_tx_data(ctrl_tx_data),
-		.ctrl_tx_valid(ctrl_tx_valid),
-		.ctrl_tx_ready(ctrl_tx_ready),
-		.ctrl_rx_data(ctrl_rx_data),
-		.ctrl_rx_valid(ctrl_rx_valid),
-		// Reader side
-		.read_tx_data(read_tx_data),
-		.read_tx_valid(read_tx_valid),
-		.read_tx_ready(read_tx_ready),
-		.read_rx_data(read_rx_data),
-		.read_rx_valid(read_rx_valid),
-		// SPI master side
-		.spi_tx_data(spi_tx_data),
-		.spi_tx_valid(spi_tx_valid),
-		.spi_tx_ready(spi_tx_ready),
-		.spi_rx_data(spi_rx_data),
-		.spi_rx_valid(spi_rx_valid)
-	);
-
+spi_arbiter spi_arb (
+    .clk(clk),
+    .resetn(resetn),
+    .init_phase(init_phase),
+    // Controller side
+    .ctrl_tx_data(ctrl_tx_data),
+    .ctrl_tx_valid(ctrl_tx_valid),
+    .ctrl_tx_ready(ctrl_tx_ready),
+    .ctrl_rx_data(ctrl_rx_data),
+    .ctrl_rx_valid(ctrl_rx_valid),
+    .ctrl_cs_enable(ctrl_cs_enable),   // MỚI
+    // Reader side
+    .read_tx_data(read_tx_data),
+    .read_tx_valid(read_tx_valid),
+    .read_tx_ready(read_tx_ready),
+    .read_rx_data(read_rx_data),
+    .read_rx_valid(read_rx_valid),
+    .read_cs_enable(read_cs_enable),   // MỚI
+    // SPI master side
+    .spi_tx_data(spi_tx_data),
+    .spi_tx_valid(spi_tx_valid),
+    .spi_tx_ready(spi_tx_ready),
+    .spi_rx_data(spi_rx_data),
+    .spi_rx_valid(spi_rx_valid),
+    .spi_cs_enable(spi_cs_enable)      // MỚI
+);
 	// ============================================
 	// SD Controller (through arbiter ctrl_* ports)
 	// ============================================
-	sd_controller sd_init (
-		.clk(clk),
-		.resetn(resetn),
-		.tx_data(ctrl_tx_data),
-		.tx_valid(ctrl_tx_valid),
-		.tx_ready(ctrl_tx_ready),
-		.rx_data(ctrl_rx_data),
-		.rx_valid(ctrl_rx_valid),
-		.init_done(init_done)
-	);
-
+sd_controller sd_init (
+    .clk(clk),
+    .resetn(resetn),
+    .tx_data(ctrl_tx_data),
+    .tx_valid(ctrl_tx_valid),
+    .tx_ready(ctrl_tx_ready),
+    .rx_data(ctrl_rx_data),
+    .rx_valid(ctrl_rx_valid),
+    .cs_enable(ctrl_cs_enable),   // MỚI
+    .init_done(init_done)
+);
 	// ============================================
 	// SD Read Block (through arbiter read_* ports)
 	// ============================================
-	sd_read_block sd_reader (
-		.clk(clk),
-		.resetn(resetn),
-		.start(read_start),
-		.block_addr(block_addr),
-		.tx_data(read_tx_data),
-		.tx_valid(read_tx_valid),
-		.tx_ready(read_tx_ready),
-		.rx_data(read_rx_data),
-		.rx_valid(read_rx_valid),
-		.data_out(data_out),
-		.data_valid(data_valid),
-		.block_done(block_done)
-	);
+sd_read_block sd_reader (
+    .clk(clk),
+    .resetn(resetn),
+    .start(read_start),
+    .block_addr(block_addr),
+    .tx_data(read_tx_data),
+    .tx_valid(read_tx_valid),
+    .tx_ready(read_tx_ready),
+    .rx_data(read_rx_data),
+    .rx_valid(read_rx_valid),
+    .cs_enable(read_cs_enable),   // MỚI
+    .data_out(data_out),
+    .data_valid(data_valid),
+    .block_done(block_done)
+);
 
 	// ============================================
 	// SD Bootloader
