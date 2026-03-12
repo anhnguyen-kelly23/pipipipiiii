@@ -386,22 +386,22 @@ module system (
                         32'h6000_000C: mem_rdata <= {16'd0, sdspi_clkdiv};
                         // TinyJAMBU
                         32'h3000_0048: mem_rdata <= {30'd0, jb_done_sticky, jb_valid_sticky};
-                        32'h3000_004C: mem_rdata <= jb_data_out[ 31:  0];
-                        32'h3000_0050: mem_rdata <= jb_data_out[ 63: 32];
-                        32'h3000_0054: mem_rdata <= jb_data_out[ 95: 64];
-                        32'h3000_0058: mem_rdata <= jb_data_out[127: 96];
-                        32'h3000_005C: mem_rdata <= jb_tag_out [ 31:  0];
-                        32'h3000_0060: mem_rdata <= jb_tag_out [ 63: 32];
+                        32'h3000_004C: mem_rdata <= jb_data_out[127: 96];
+                        32'h3000_0050: mem_rdata <= jb_data_out[ 95: 64];
+                        32'h3000_0054: mem_rdata <= jb_data_out[ 63: 32];
+                        32'h3000_0058: mem_rdata <= jb_data_out[ 31:  0];
+                        32'h3000_005C: mem_rdata <= jb_tag_out [ 63: 32];
+                        32'h3000_0060: mem_rdata <= jb_tag_out [ 31:  0];
                         // Xoodyak
                         32'h4000_0054: mem_rdata <= {30'd0, xd_done_sticky, xd_valid_sticky};
-                        32'h4000_0058: mem_rdata <= xd_data_out[ 31:  0];
-                        32'h4000_005C: mem_rdata <= xd_data_out[ 63: 32];
-                        32'h4000_0060: mem_rdata <= xd_data_out[ 95: 64];
-                        32'h4000_0064: mem_rdata <= xd_data_out[127: 96];
-                        32'h4000_0068: mem_rdata <= xd_tag_out [ 31:  0];
-                        32'h4000_006C: mem_rdata <= xd_tag_out [ 63: 32];
-                        32'h4000_0070: mem_rdata <= xd_tag_out [ 95: 64];
-                        32'h4000_0074: mem_rdata <= xd_tag_out [127: 96];
+                        32'h4000_0058: mem_rdata <= xd_data_out[127: 96];
+                        32'h4000_005C: mem_rdata <= xd_data_out[ 95: 64];
+                        32'h4000_0060: mem_rdata <= xd_data_out[ 63: 32];
+                        32'h4000_0064: mem_rdata <= xd_data_out[ 31:  0];
+                        32'h4000_0068: mem_rdata <= xd_tag_out [127: 96];
+                        32'h4000_006C: mem_rdata <= xd_tag_out [ 95: 64];
+                        32'h4000_0070: mem_rdata <= xd_tag_out [ 63: 32];
+                        32'h4000_0074: mem_rdata <= xd_tag_out [ 31:  0];
                         // GIFT-COFB
                         32'h5000_0054: mem_rdata <= {28'd0, gc_ad_req, gc_msg_req, gc_done_sticky, gc_valid_sticky};
                         32'h5000_0058: mem_rdata <= gc_data_out[ 31:  0];
@@ -449,23 +449,23 @@ module system (
                             32'h6000_0008: sdspi_cs_n_reg <= mem_la_wdata[0];
                             32'h6000_000C: sdspi_clkdiv   <= mem_la_wdata[15:0];
                             // TinyJAMBU
-                            32'h3000_0000: jb_key[  31:  0] <= mem_la_wdata;
-                            32'h3000_0004: jb_key[  63: 32] <= mem_la_wdata;
-                            32'h3000_0008: jb_key[  95: 64] <= mem_la_wdata;
-                            32'h3000_000C: jb_key[ 127: 96] <= mem_la_wdata;
-                            32'h3000_0010: jb_nonce[ 31: 0] <= mem_la_wdata;
+                            32'h3000_0000: jb_key[ 127: 96] <= mem_la_wdata;
+                            32'h3000_0004: jb_key[  95: 64] <= mem_la_wdata;
+                            32'h3000_0008: jb_key[  63: 32] <= mem_la_wdata;
+                            32'h3000_000C: jb_key[  31:  0] <= mem_la_wdata;
+                            32'h3000_0010: jb_nonce[ 95: 64] <= mem_la_wdata;
                             32'h3000_0014: jb_nonce[ 63:32] <= mem_la_wdata;
-                            32'h3000_0018: jb_nonce[ 95:64] <= mem_la_wdata;
-                            32'h3000_001C: jb_ad[   31:  0] <= mem_la_wdata;
-                            32'h3000_0020: jb_ad[   63: 32] <= mem_la_wdata;
-                            32'h3000_0024: jb_ad[   95: 64] <= mem_la_wdata;
-                            32'h3000_0028: jb_ad[  127: 96] <= mem_la_wdata;
-                            32'h3000_002C: jb_data_in[ 31: 0] <= mem_la_wdata;
-                            32'h3000_0030: jb_data_in[ 63:32] <= mem_la_wdata;
-                            32'h3000_0034: jb_data_in[ 95:64] <= mem_la_wdata;
-                            32'h3000_0038: jb_data_in[127:96] <= mem_la_wdata;
-                            32'h3000_003C: jb_tag_in[ 31: 0] <= mem_la_wdata;
-                            32'h3000_0040: jb_tag_in[ 63:32] <= mem_la_wdata;
+                            32'h3000_0018: jb_nonce[ 31: 0] <= mem_la_wdata;
+                            32'h3000_001C: jb_ad[  127: 96] <= mem_la_wdata;
+                            32'h3000_0020: jb_ad[   95: 64] <= mem_la_wdata;
+                            32'h3000_0024: jb_ad[   63: 32] <= mem_la_wdata;
+                            32'h3000_0028: jb_ad[   31:  0] <= mem_la_wdata;
+                            32'h3000_002C: jb_data_in[127:96] <= mem_la_wdata;
+                            32'h3000_0030: jb_data_in[ 95:64] <= mem_la_wdata;
+                            32'h3000_0034: jb_data_in[ 63:32] <= mem_la_wdata;
+                            32'h3000_0038: jb_data_in[ 31:0] <= mem_la_wdata;
+                            32'h3000_003C: jb_tag_in[ 63:32] <= mem_la_wdata;
+                            32'h3000_0040: jb_tag_in[ 31: 0] <= mem_la_wdata;
                             32'h3000_0044: begin
                                 jb_sel_type    <= mem_la_wdata[18:16];
                                 jb_ad_length   <= mem_la_wdata[12: 8];
@@ -473,26 +473,26 @@ module system (
                                 jb_ena         <= 1'b1;
                             end
                             // Xoodyak
-                            32'h4000_0000: xd_key[  31:  0] <= mem_la_wdata;
-                            32'h4000_0004: xd_key[  63: 32] <= mem_la_wdata;
-                            32'h4000_0008: xd_key[  95: 64] <= mem_la_wdata;
-                            32'h4000_000C: xd_key[ 127: 96] <= mem_la_wdata;
-                            32'h4000_0010: xd_nonce[ 31: 0] <= mem_la_wdata;
-                            32'h4000_0014: xd_nonce[ 63:32] <= mem_la_wdata;
-                            32'h4000_0018: xd_nonce[ 95:64] <= mem_la_wdata;
-                            32'h4000_001C: xd_nonce[127:96] <= mem_la_wdata;
-                            32'h4000_0020: xd_ad[   31:  0] <= mem_la_wdata;
-                            32'h4000_0024: xd_ad[   63: 32] <= mem_la_wdata;
-                            32'h4000_0028: xd_ad[   95: 64] <= mem_la_wdata;
-                            32'h4000_002C: xd_ad[  127: 96] <= mem_la_wdata;
-                            32'h4000_0030: xd_data_in[ 31: 0] <= mem_la_wdata;
-                            32'h4000_0034: xd_data_in[ 63:32] <= mem_la_wdata;
-                            32'h4000_0038: xd_data_in[ 95:64] <= mem_la_wdata;
-                            32'h4000_003C: xd_data_in[127:96] <= mem_la_wdata;
-                            32'h4000_0040: xd_tag_in[ 31: 0] <= mem_la_wdata;
-                            32'h4000_0044: xd_tag_in[ 63:32] <= mem_la_wdata;
-                            32'h4000_0048: xd_tag_in[ 95:64] <= mem_la_wdata;
-                            32'h4000_004C: xd_tag_in[127:96] <= mem_la_wdata;
+                            32'h4000_0000: xd_key[ 127: 96] <= mem_la_wdata;
+                            32'h4000_0004: xd_key[  95: 64] <= mem_la_wdata;
+                            32'h4000_0008: xd_key[  63: 32] <= mem_la_wdata;
+                            32'h4000_000C: xd_key[  31:  0] <= mem_la_wdata;
+                            32'h4000_0010: xd_nonce[127: 96] <= mem_la_wdata;
+                            32'h4000_0014: xd_nonce[ 95: 64] <= mem_la_wdata;
+                            32'h4000_0018: xd_nonce[ 63: 32] <= mem_la_wdata;
+                            32'h4000_001C: xd_nonce[ 31:  0] <= mem_la_wdata;
+                            32'h4000_0020: xd_ad[  127: 96] <= mem_la_wdata;
+                            32'h4000_0024: xd_ad[   95: 64] <= mem_la_wdata;
+                            32'h4000_0028: xd_ad[   63: 32] <= mem_la_wdata;
+                            32'h4000_002C: xd_ad[   31:  0] <= mem_la_wdata;
+                            32'h4000_0030: xd_data_in[127:96] <= mem_la_wdata;
+                            32'h4000_0034: xd_data_in[ 95:64] <= mem_la_wdata;
+                            32'h4000_0038: xd_data_in[ 63:32] <= mem_la_wdata;
+                            32'h4000_003C: xd_data_in[ 31: 0] <= mem_la_wdata;
+                            32'h4000_0040: xd_tag_in[ 127:96] <= mem_la_wdata;
+                            32'h4000_0044: xd_tag_in[  95:64] <= mem_la_wdata;
+                            32'h4000_0048: xd_tag_in[  63:32] <= mem_la_wdata;
+                            32'h4000_004C: xd_tag_in[  31: 0] <= mem_la_wdata;
                             32'h4000_0050: begin
                                 xd_sel_type    <= mem_la_wdata[18:16];
                                 xd_ad_length   <= mem_la_wdata[12: 8];
@@ -609,36 +609,36 @@ module system (
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h3000_0048:
                     begin mem_rdata<={30'd0,jb_done_sticky,jb_valid_sticky}; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h3000_004C:
-                    begin mem_rdata<=jb_data_out[ 31: 0]; mem_ready<=1; end
+                    begin mem_rdata<=jb_data_out[127: 96]; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h3000_0050:
-                    begin mem_rdata<=jb_data_out[ 63:32]; mem_ready<=1; end
+                    begin mem_rdata<=jb_data_out[ 95: 64]; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h3000_0054:
-                    begin mem_rdata<=jb_data_out[ 95:64]; mem_ready<=1; end
+                    begin mem_rdata<=jb_data_out[ 63: 32]; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h3000_0058:
-                    begin mem_rdata<=jb_data_out[127:96]; mem_ready<=1; end
+                    begin mem_rdata<=jb_data_out[ 31:  0]; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h3000_005C:
-                    begin mem_rdata<=jb_tag_out[ 31: 0]; mem_ready<=1; end
+                    begin mem_rdata<=jb_tag_out [ 63: 32]; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h3000_0060:
-                    begin mem_rdata<=jb_tag_out[ 63:32]; mem_ready<=1; end
+                    begin mem_rdata<=jb_tag_out [ 31:  0]; mem_ready<=1; end
                 // Xoodyak reads
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h4000_0054:
                     begin mem_rdata<={30'd0,xd_done_sticky,xd_valid_sticky}; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h4000_0058:
-                    begin mem_rdata<=xd_data_out[ 31: 0]; mem_ready<=1; end
+                    begin mem_rdata<=xd_data_out[127: 96]; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h4000_005C:
-                    begin mem_rdata<=xd_data_out[ 63:32]; mem_ready<=1; end
+                    begin mem_rdata<=xd_data_out[ 95: 64]; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h4000_0060:
-                    begin mem_rdata<=xd_data_out[ 95:64]; mem_ready<=1; end
+                    begin mem_rdata<=xd_data_out[ 63: 32]; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h4000_0064:
-                    begin mem_rdata<=xd_data_out[127:96]; mem_ready<=1; end
+                    begin mem_rdata<=xd_data_out[ 31:  0]; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h4000_0068:
-                    begin mem_rdata<=xd_tag_out[ 31: 0]; mem_ready<=1; end
+                    begin mem_rdata<=xd_tag_out [127: 96]; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h4000_006C:
-                    begin mem_rdata<=xd_tag_out[ 63:32]; mem_ready<=1; end
+                    begin mem_rdata<=xd_tag_out [ 95: 64]; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h4000_0070:
-                    begin mem_rdata<=xd_tag_out[ 95:64]; mem_ready<=1; end
+                    begin mem_rdata<=xd_tag_out [ 63: 32]; mem_ready<=1; end
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h4000_0074:
-                    begin mem_rdata<=xd_tag_out[127:96]; mem_ready<=1; end
+                    begin mem_rdata<=xd_tag_out [ 31:  0]; mem_ready<=1; end
                 // GIFT-COFB reads
                 mem_valid && !mem_ready && !mem_wstrb && mem_addr==32'h5000_0054:
                     begin mem_rdata<={28'd0,gc_ad_req,gc_msg_req,gc_done_sticky,gc_valid_sticky}; mem_ready<=1; end
@@ -689,15 +689,15 @@ module system (
                 // TinyJAMBU writes
                 mem_valid && !mem_ready && |mem_wstrb && mem_addr[31:8]==24'h30_0000: begin
                     case (mem_addr[7:0])
-                        8'h00: jb_key[ 31: 0]<=mem_wdata;  8'h04: jb_key[ 63:32]<=mem_wdata;
-                        8'h08: jb_key[ 95:64]<=mem_wdata;  8'h0C: jb_key[127:96]<=mem_wdata;
-                        8'h10: jb_nonce[ 31: 0]<=mem_wdata; 8'h14: jb_nonce[ 63:32]<=mem_wdata;
-                        8'h18: jb_nonce[ 95:64]<=mem_wdata;
-                        8'h1C: jb_ad[ 31: 0]<=mem_wdata;   8'h20: jb_ad[ 63:32]<=mem_wdata;
-                        8'h24: jb_ad[ 95:64]<=mem_wdata;   8'h28: jb_ad[127:96]<=mem_wdata;
-                        8'h2C: jb_data_in[ 31: 0]<=mem_wdata; 8'h30: jb_data_in[ 63:32]<=mem_wdata;
-                        8'h34: jb_data_in[ 95:64]<=mem_wdata; 8'h38: jb_data_in[127:96]<=mem_wdata;
-                        8'h3C: jb_tag_in[ 31: 0]<=mem_wdata;  8'h40: jb_tag_in[ 63:32]<=mem_wdata;
+                        8'h00: jb_key[127: 96]<=mem_wdata; 8'h04: jb_key[ 95: 64]<=mem_wdata;
+                        8'h08: jb_key[ 63: 32]<=mem_wdata; 8'h0C: jb_key[ 31:  0]<=mem_wdata;
+                        8'h10: jb_nonce[ 95: 64]<=mem_wdata; 8'h14: jb_nonce[ 63: 32]<=mem_wdata;
+                        8'h18: jb_nonce[ 31: 0]<=mem_wdata;
+                        8'h1C: jb_ad[127: 96]<=mem_wdata;  8'h20: jb_ad[ 95: 64]<=mem_wdata;
+                        8'h24: jb_ad[ 63: 32]<=mem_wdata;  8'h28: jb_ad[ 31:  0]<=mem_wdata;
+                        8'h2C: jb_data_in[127:96]<=mem_wdata; 8'h30: jb_data_in[ 95:64]<=mem_wdata;
+                        8'h34: jb_data_in[ 63:32]<=mem_wdata; 8'h38: jb_data_in[ 31: 0]<=mem_wdata;
+                        8'h3C: jb_tag_in[ 63:32]<=mem_wdata;  8'h40: jb_tag_in[ 31: 0]<=mem_wdata;
                         8'h44: begin
                             jb_sel_type<=mem_wdata[18:16]; jb_ad_length<=mem_wdata[12:8];
                             jb_data_length<=mem_wdata[4:0]; jb_ena<=1;
@@ -708,16 +708,16 @@ module system (
                 // Xoodyak writes
                 mem_valid && !mem_ready && |mem_wstrb && mem_addr[31:8]==24'h40_0000: begin
                     case (mem_addr[7:0])
-                        8'h00: xd_key[ 31: 0]<=mem_wdata;  8'h04: xd_key[ 63:32]<=mem_wdata;
-                        8'h08: xd_key[ 95:64]<=mem_wdata;  8'h0C: xd_key[127:96]<=mem_wdata;
-                        8'h10: xd_nonce[ 31: 0]<=mem_wdata; 8'h14: xd_nonce[ 63:32]<=mem_wdata;
-                        8'h18: xd_nonce[ 95:64]<=mem_wdata; 8'h1C: xd_nonce[127:96]<=mem_wdata;
-                        8'h20: xd_ad[ 31: 0]<=mem_wdata;   8'h24: xd_ad[ 63:32]<=mem_wdata;
-                        8'h28: xd_ad[ 95:64]<=mem_wdata;   8'h2C: xd_ad[127:96]<=mem_wdata;
-                        8'h30: xd_data_in[ 31: 0]<=mem_wdata; 8'h34: xd_data_in[ 63:32]<=mem_wdata;
-                        8'h38: xd_data_in[ 95:64]<=mem_wdata; 8'h3C: xd_data_in[127:96]<=mem_wdata;
-                        8'h40: xd_tag_in[ 31: 0]<=mem_wdata;  8'h44: xd_tag_in[ 63:32]<=mem_wdata;
-                        8'h48: xd_tag_in[ 95:64]<=mem_wdata;  8'h4C: xd_tag_in[127:96]<=mem_wdata;
+                        8'h00: xd_key[127: 96]<=mem_wdata; 8'h04: xd_key[ 95: 64]<=mem_wdata;
+                        8'h08: xd_key[ 63: 32]<=mem_wdata; 8'h0C: xd_key[ 31:  0]<=mem_wdata;
+                        8'h10: xd_nonce[127: 96]<=mem_wdata; 8'h14: xd_nonce[ 95: 64]<=mem_wdata;
+                        8'h18: xd_nonce[ 63: 32]<=mem_wdata; 8'h1C: xd_nonce[ 31:  0]<=mem_wdata;
+                        8'h20: xd_ad[127: 96]<=mem_wdata;  8'h24: xd_ad[ 95: 64]<=mem_wdata;
+                        8'h28: xd_ad[ 63: 32]<=mem_wdata;  8'h2C: xd_ad[ 31:  0]<=mem_wdata;
+                        8'h30: xd_data_in[127:96]<=mem_wdata; 8'h34: xd_data_in[ 95:64]<=mem_wdata;
+                        8'h38: xd_data_in[ 63:32]<=mem_wdata; 8'h3C: xd_data_in[ 31: 0]<=mem_wdata;
+                        8'h40: xd_tag_in[127:96]<=mem_wdata;  8'h44: xd_tag_in[ 95:64]<=mem_wdata;
+                        8'h48: xd_tag_in[ 63:32]<=mem_wdata;  8'h4C: xd_tag_in[ 31: 0]<=mem_wdata;
                         8'h50: begin
                             xd_sel_type<=mem_wdata[18:16]; xd_ad_length<=mem_wdata[12:8];
                             xd_data_length<=mem_wdata[4:0]; xd_ena<=1;

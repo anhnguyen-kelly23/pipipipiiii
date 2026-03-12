@@ -2,8 +2,10 @@
  * bootloader.c — PicoRV32 SD-card bootloader
  *
  * Memory map:
- *   Boot BRAM : 0x0000_0000 – 0x0000_0FFF  (4 KB, read-only)
- *   App  BRAM : 0x0001_0000 – 0x0001_FFFF  (64 KB, loaded from SD)
+ *   Boot BRAM : 0x0000_0000 – 0x0000_0FFF  (4 KB, read-only code+rodata)
+ *   App  BRAM : 0x0001_0000 – 0x0001_FFFF  (64 KB)
+ *     FW area : 0x0001_0000 – 0x0001_EFFF  (60 KB, loaded from SD)
+ *     BL data : 0x0001_F000 – 0x0001_FFFF  (4 KB, bootloader .bss + stack)
  *
  * SD card layout (sector 2048 = 1 MB offset):
  *   byte [0..3]  firmware size, little-endian uint32
@@ -34,7 +36,7 @@
 
 #define APP_BASE         0x00010000UL
 #define APP_START_SECTOR 2048UL
-#define MAX_FW_BYTES     (63UL * 1024UL)
+#define MAX_FW_BYTES     (60UL * 1024UL)   /* 60 KB — chừa 4 KB cho BL data */
 
 /* =========================================================
  * memcpy (no stdlib)
@@ -80,25 +82,26 @@ static void uart_puthw(uint32_t v)        /* print 8 hex digits */
  * SPI low-level
  *   SD_STATUS[1] = busy  (transfer in progress)
  *   SD_STATUS[0] = done  (sticky, cleared on next start)
+ *
+ * Dùng done_sticky (bit 0) thay vì busy (bit 1) để tránh
+ * race condition ở tốc độ SPI cao.
  * ========================================================= */
 static uint8_t spi_xfer(uint8_t tx)
 {
-    while (SD_STATUS & 0x2);         /* wait: not busy     */
-    SD_DATA = tx;                    /* start transfer     */
-    while (!(SD_STATUS & 0x1));      /* wait: done         */
-    return (uint8_t)(SD_DATA & 0xFF);
+    while (SD_STATUS & 0x2);          /* wait: not busy              */
+    SD_DATA = tx;                     /* start xfer, clears done_sticky */
+    while (!(SD_STATUS & 0x1));       /* wait: done_sticky = 1       */
+    return (uint8_t)(SD_DATA & 0xFF); /* rx_data valid after done    */
 }
 
 static inline uint8_t sd_dummy(void) { return spi_xfer(0xFF); }
-static inline void    cs_lo(void)    { SD_CS = 0; }  /* assert   CS */
-static inline void    cs_hi(void)    { SD_CS = 1; }  /* deassert CS */
+static inline void    cs_lo(void)    { SD_CS = 0; }
+static inline void    cs_hi(void)    { SD_CS = 1; }
 
-/* 1 dummy byte + deassert CS — chuẩn kết thúc lệnh */
 static void sd_end(void) { sd_dummy(); cs_hi(); }
 
 /* =========================================================
  * sd_cmd — gửi 6-byte command, chờ R1 (bit7=0)
- *   Trả về byte R1; caller giữ CS sau đó.
  * ========================================================= */
 static uint8_t sd_cmd(uint8_t cmd, uint32_t arg, uint8_t crc)
 {
@@ -106,7 +109,7 @@ static uint8_t sd_cmd(uint8_t cmd, uint32_t arg, uint8_t crc)
     unsigned int n;
 
     cs_lo();
-    sd_dummy();                      /* 1 byte padding     */
+    sd_dummy();
     spi_xfer(cmd);
     spi_xfer((arg >> 24) & 0xFF);
     spi_xfer((arg >> 16) & 0xFF);
@@ -114,7 +117,6 @@ static uint8_t sd_cmd(uint8_t cmd, uint32_t arg, uint8_t crc)
     spi_xfer((arg      ) & 0xFF);
     spi_xfer(crc);
 
-    /* poll R1: bỏ 0xFF đầu, tối đa 1000 lần */
     for (n = 1000; n; n--) {
         r = sd_dummy();
         if (!(r & 0x80)) return r;
@@ -124,19 +126,17 @@ static uint8_t sd_cmd(uint8_t cmd, uint32_t arg, uint8_t crc)
 }
 
 /* =========================================================
- * sd_poweron — >= 80 clock pulses với CS=HIGH (SPI entry)
+ * sd_poweron — >= 80 clock pulses với CS=HIGH
  * ========================================================= */
 static void sd_poweron(void)
 {
-    SD_CLKDIV = 199;                 /* ~250 kHz           */
+    SD_CLKDIV = 199;
     cs_hi();
-    for (int i = 0; i < 20; i++)    /* 20*8=160 clocks    */
+    for (int i = 0; i < 20; i++)
         sd_dummy();
 }
 
-/* =========================================================
- * CMD0 — GO_IDLE_STATE → R1 phải = 0x01
- * ========================================================= */
+/* CMD0 */
 static int sd_cmd0(void)
 {
     uart_puts("  CMD0  ... ");
@@ -147,10 +147,7 @@ static int sd_cmd0(void)
     return 0;
 }
 
-/* =========================================================
- * CMD8 — SEND_IF_COND → xác nhận SD v2 + 3.3V
- *   R1=0x01, voltage nibble=0x1, echo=0xAA
- * ========================================================= */
+/* CMD8 */
 static int sd_cmd8(void)
 {
     uart_puts("  CMD8  ... ");
@@ -160,35 +157,30 @@ static int sd_cmd8(void)
         uart_puts("FAIL R1=0x"); uart_puth(r); uart_puts("\r\n");
         return -1;
     }
-    sd_dummy();                      /* cmd version (bỏ)   */
-    sd_dummy();                      /* reserved    (bỏ)   */
-    uint8_t volt = sd_dummy() & 0xF; /* voltage nibble     */
-    uint8_t echo = sd_dummy();       /* echo pattern       */
+    sd_dummy();
+    sd_dummy();
+    uint8_t volt = sd_dummy() & 0xF;
+    uint8_t echo = sd_dummy();
     sd_end();
     if (volt != 0x1 || echo != 0xAA) {
-        uart_puts("FAIL volt=0x"); uart_puth(volt);
-        uart_puts(" echo=0x");    uart_puth(echo);
-        uart_puts("\r\n");
+        uart_puts("FAIL\r\n");
         return -1;
     }
     uart_puts("OK\r\n");
     return 0;
 }
 
-/* =========================================================
- * ACMD41 — SD_SEND_OP_COND, HCS=1
- *   CMD55 → ACMD41, lặp cho đến R1=0x00
- * ========================================================= */
+/* ACMD41 */
 static int sd_acmd41(void)
 {
     uint8_t r;
     uart_puts("  ACMD41... ");
     do {
-        sd_cmd(0x77, 0, 0x65);       /* CMD55 */
+        sd_cmd(0x77, 0, 0x65);
         sd_end();
-        r = sd_cmd(0x69, 0x40000000, 0x77); /* ACMD41 HCS=1 */
+        r = sd_cmd(0x69, 0x40000000, 0x77);
         sd_end();
-    } while (r == 0x01);             /* 0x01 = still initializing */
+    } while (r == 0x01);
     if (r != 0x00) {
         uart_puts("FAIL R1=0x"); uart_puth(r); uart_puts("\r\n");
         return -1;
@@ -197,12 +189,8 @@ static int sd_acmd41(void)
     return 0;
 }
 
-/* =========================================================
- * CMD58 — READ_OCR
- *   Kiểm tra Power-Up Status (bit7) và lấy CCS (bit6)
- *   QUAN TRỌNG: set g_sdhc tại đây để CMD17 dùng đúng địa chỉ
- * ========================================================= */
-static int g_sdhc = 0;  /* 1=SDHC/SDXC (sector addr), 0=SDSC (byte addr) */
+/* CMD58 — READ_OCR */
+static int g_sdhc = 0;
 
 static int sd_cmd58(void)
 {
@@ -214,24 +202,20 @@ static int sd_cmd58(void)
         uart_puts("FAIL R1=0x"); uart_puth(r); uart_puts("\r\n");
         return -1;
     }
-    uint8_t ocr0 = sd_dummy();       /* [7]=PwrUp [6]=CCS  */
+    uint8_t ocr0 = sd_dummy();
     sd_dummy(); sd_dummy(); sd_dummy();
     sd_end();
     if (!(ocr0 & 0x80)) {
-        uart_puts("FAIL PowerUp=0 OCR=0x"); uart_puth(ocr0); uart_puts("\r\n");
+        uart_puts("FAIL\r\n");
         return -1;
     }
-    g_sdhc = (ocr0 & 0x40) ? 1 : 0; /* *** set g_sdhc *** */
+    g_sdhc = (ocr0 & 0x40) ? 1 : 0;
     uart_puts("OCR=0x"); uart_puth(ocr0);
     uart_puts(g_sdhc ? " SDHC\r\n" : " SDSC\r\n");
     return 0;
 }
 
-/* =========================================================
- * CMD16 — SET_BLOCKLEN = 512 bytes
- *   Chỉ cần cho SDSC; SDHC/SDXC từ chối nhưng vẫn dùng 512.
- *   KHÔNG return lỗi — gọi xong bỏ qua.
- * ========================================================= */
+/* CMD16 — SET_BLOCKLEN */
 static void sd_cmd16(void)
 {
     uart_puts("  CMD16 ... ");
@@ -241,9 +225,7 @@ static void sd_cmd16(void)
     uart_puts(r == 0x00 ? " OK\r\n" : " (ignored)\r\n");
 }
 
-/* =========================================================
- * sd_init — full init sequence
- * ========================================================= */
+/* sd_init */
 static int sd_init(void)
 {
     sd_poweron();
@@ -251,20 +233,14 @@ static int sd_init(void)
     if (sd_cmd8()   != 0) return -2;
     if (sd_acmd41() != 0) return -3;
     if (sd_cmd58()  != 0) return -4;
-    sd_cmd16();                      /* KHÔNG check lỗi    */
-    SD_CLKDIV = 1;                   /* 25 MHz full speed  */
-    uart_puts("  SPI 25MHz\r\n");
+    sd_cmd16();
+    SD_CLKDIV = 3;                   /* ~12.5 MHz (safe)   */
+    uart_puts("  SPI 12.5MHz\r\n");
     return 0;
 }
 
 /* =========================================================
- * CMD17 — READ_SINGLE_BLOCK (512 bytes)
- *   SDHC : arg = sector number
- *   SDSC : arg = byte address = sector * 512
- * ========================================================= */
-/* =========================================================
- * Đọc một sector 512-byte từ thẻ SD vào buf[]
- * Đã sửa lỗi giữ tín hiệu CS liên tục cho đến khi nhận đủ Data Token
+ * sd_read_sector — đọc 512-byte sector từ SD card
  * ========================================================= */
 static int sd_read_sector(uint32_t sector, uint8_t *buf)
 {
@@ -272,10 +248,9 @@ static int sd_read_sector(uint32_t sector, uint8_t *buf)
     uint8_t r;
     int timeout;
 
-    // sd_cmd() đã gọi cs_lo() bên trong, không cần cs_assert()
-    r = sd_cmd(0x51, arg, 0x01);   // ← 0x51 = CMD17
+    r = sd_cmd(0x51, arg, 0x01);
     if (r != 0x00) {
-        cs_hi();                    // ← cs_hi() đúng tên
+        cs_hi();
         sd_dummy();
         return -1;
     }
@@ -284,7 +259,7 @@ static int sd_read_sector(uint32_t sector, uint8_t *buf)
     do {
         r = spi_xfer(0xFF);
         if (--timeout == 0) {
-            cs_hi();                // ← cs_hi()
+            cs_hi();
             sd_dummy();
             return -2;
         }
@@ -293,16 +268,20 @@ static int sd_read_sector(uint32_t sector, uint8_t *buf)
     for (int i = 0; i < 512; i++)
         buf[i] = spi_xfer(0xFF);
 
-    spi_xfer(0xFF);  // CRC byte 1
-    spi_xfer(0xFF);  // CRC byte 2
+    spi_xfer(0xFF);  /* CRC byte 1 */
+    spi_xfer(0xFF);  /* CRC byte 2 */
 
-    cs_hi();         // ← cs_hi()
-    sd_dummy();      // 8 extra clocks
+    cs_hi();
+    sd_dummy();
 
     return 0;
 }
+
 /* =========================================================
  * load_fw — đọc header, load toàn bộ firmware vào App BRAM
+ *
+ * sbuf[512] nằm ở BL_RAM (0x1F000+) nhờ linker script,
+ * KHÔNG xung đột với firmware load area (0x10000+).
  * ========================================================= */
 static uint8_t sbuf[512];
 
@@ -382,3 +361,4 @@ void bootloader_main(void)
     ((void (*)(void))APP_BASE)();
     while (1);
 }
+

@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
-| Date         : Wed Mar 11 19:58:14 2026
+| Date         : Thu Mar 12 22:40:24 2026
 | Host         : minhanh-VMware-Virtual-Platform running 64-bit Ubuntu 24.04.3 LTS
 | Command      : report_timing -from [get_cells u_giftcofb/*] -to [get_cells u_giftcofb/*] -max_paths 10 -file report_timing_giftcofb.txt
 | Design       : system
@@ -12,20 +12,20 @@ Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanc
 
 Timing Report
 
-Slack (VIOLATED) :        -0.080ns  (required time - arrival time)
-  Source:                 u_giftcofb/remaining_msg_reg[1]/C
+Slack (MET) :             0.147ns  (required time - arrival time)
+  Source:                 u_giftcofb/FSM_sequential_state_reg[1]/C
                             (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            u_giftcofb/gift_in_reg[30]/D
+  Destination:            u_giftcofb/L_reg[5]/D
                             (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             clk
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
-  Data Path Delay:        10.100ns  (logic 0.952ns (9.426%)  route 9.148ns (90.574%))
-  Logic Levels:           4  (LUT4=1 LUT6=3)
-  Clock Path Skew:        0.026ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.142ns = ( 15.142 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.304ns
-    Clock Pessimism Removal (CPR):    0.188ns
+  Data Path Delay:        9.549ns  (logic 0.704ns (7.373%)  route 8.845ns (92.627%))
+  Logic Levels:           2  (LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.298ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    4.929ns = ( 14.929 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.414ns
+    Clock Pessimism Removal (CPR):    0.187ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -40,20 +40,382 @@ Slack (VIOLATED) :        -0.080ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.702     5.304    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X83Y130        FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
+                         net (fo=14535, routed)       1.811     5.414    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X36Y40         FDCE                                         r  u_giftcofb/FSM_sequential_state_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X83Y130        FDCE (Prop_fdce_C_Q)         0.456     5.760 f  u_giftcofb/remaining_msg_reg[1]/Q
-                         net (fo=10, routed)          0.999     6.760    u_giftcofb/remaining_msg_reg_n_0_[1]
-    SLICE_X83Y132        LUT4 (Prop_lut4_I3_O)        0.124     6.884 r  u_giftcofb/is_last_msg_i_3/O
-                         net (fo=75, routed)          0.910     7.794    u_giftcofb/is_last_msg_i_3_n_0
-    SLICE_X82Y131        LUT6 (Prop_lut6_I5_O)        0.124     7.918 r  u_giftcofb/gift_in[126]_i_7/O
-                         net (fo=132, routed)         6.805    14.723    u_giftcofb/u_pho_msg/pho1_inst/pad_inst/gift_in_reg[24]
-    SLICE_X75Y199        LUT6 (Prop_lut6_I2_O)        0.124    14.847 r  u_giftcofb/u_pho_msg/pho1_inst/pad_inst/gift_in[30]_i_3/O
-                         net (fo=1, routed)           0.433    15.280    u_giftcofb/pho1_inst/M_padded[30]
-    SLICE_X75Y199        LUT6 (Prop_lut6_I2_O)        0.124    15.404 r  u_giftcofb/gift_in[30]_i_1/O
-                         net (fo=1, routed)           0.000    15.404    u_giftcofb/gift_in[30]_i_1_n_0
-    SLICE_X75Y199        FDCE                                         r  u_giftcofb/gift_in_reg[30]/D
+    SLICE_X36Y40         FDCE (Prop_fdce_C_Q)         0.456     5.870 r  u_giftcofb/FSM_sequential_state_reg[1]/Q
+                         net (fo=220, routed)         8.180    14.050    u_giftcofb/state[1]
+    SLICE_X57Y52         LUT6 (Prop_lut6_I5_O)        0.124    14.174 f  u_giftcofb/L[5]_i_3/O
+                         net (fo=1, routed)           0.665    14.839    u_giftcofb/u_gift/L_reg[5]_0
+    SLICE_X57Y52         LUT5 (Prop_lut5_I4_O)        0.124    14.963 r  u_giftcofb/u_gift/L[5]_i_1/O
+                         net (fo=1, routed)           0.000    14.963    u_giftcofb/u_gift_n_59
+    SLICE_X57Y52         FDCE                                         r  u_giftcofb/L_reg[5]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)       10.000    10.000 r  
+    E3                                                0.000    10.000 r  clk (IN)
+                         net (fo=0)                   0.000    10.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.920    13.331    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
+                         net (fo=14535, routed)       1.506    14.929    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X57Y52         FDCE                                         r  u_giftcofb/L_reg[5]/C
+                         clock pessimism              0.187    15.116    
+                         clock uncertainty           -0.035    15.080    
+    SLICE_X57Y52         FDCE (Setup_fdce_C_D)        0.029    15.109    u_giftcofb/L_reg[5]
+  -------------------------------------------------------------------
+                         required time                         15.109    
+                         arrival time                         -14.963    
+  -------------------------------------------------------------------
+                         slack                                  0.147    
+
+Slack (MET) :             0.265ns  (required time - arrival time)
+  Source:                 u_giftcofb/remaining_msg_reg[1]/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_giftcofb/gift_in_reg[106]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
+  Data Path Delay:        9.701ns  (logic 1.200ns (12.370%)  route 8.501ns (87.630%))
+  Logic Levels:           6  (LUT4=2 LUT5=1 LUT6=3)
+  Clock Path Skew:        -0.076ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.141ns = ( 15.141 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.413ns
+    Clock Pessimism Removal (CPR):    0.195ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.025     3.506    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
+                         net (fo=14535, routed)       1.810     5.413    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X35Y38         FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y38         FDCE (Prop_fdce_C_Q)         0.456     5.869 r  u_giftcofb/remaining_msg_reg[1]/Q
+                         net (fo=10, routed)          0.839     6.707    u_giftcofb/remaining_msg_reg_n_0_[1]
+    SLICE_X36Y39         LUT4 (Prop_lut4_I3_O)        0.124     6.831 f  u_giftcofb/is_last_msg_i_3/O
+                         net (fo=75, routed)          0.709     7.541    u_giftcofb/is_last_msg_i_3_n_0
+    SLICE_X36Y39         LUT5 (Prop_lut5_I0_O)        0.124     7.665 r  u_giftcofb/data_out[70]_i_5/O
+                         net (fo=70, routed)          1.741     9.406    u_giftcofb/data_out[70]_i_5_n_0
+    SLICE_X45Y38         LUT4 (Prop_lut4_I1_O)        0.124     9.530 r  u_giftcofb/data_out[70]_i_2/O
+                         net (fo=142, routed)         3.806    13.336    u_giftcofb/data_out[70]_i_2_n_0
+    SLICE_X77Y33         LUT6 (Prop_lut6_I0_O)        0.124    13.460 r  u_giftcofb/data_out[106]_i_2/O
+                         net (fo=2, routed)           0.677    14.137    u_giftcofb/u_phop_msg/pho1_inst/pad_inst/phop_M[92]
+    SLICE_X77Y33         LUT6 (Prop_lut6_I5_O)        0.124    14.261 r  u_giftcofb/u_phop_msg/pho1_inst/pad_inst/gift_in[106]_i_2/O
+                         net (fo=1, routed)           0.729    14.990    u_giftcofb/pho1_inst/M_padded_0[106]
+    SLICE_X76Y33         LUT6 (Prop_lut6_I0_O)        0.124    15.114 r  u_giftcofb/gift_in[106]_i_1/O
+                         net (fo=1, routed)           0.000    15.114    u_giftcofb/gift_in[106]_i_1_n_0
+    SLICE_X76Y33         FDCE                                         r  u_giftcofb/gift_in_reg[106]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)       10.000    10.000 r  
+    E3                                                0.000    10.000 r  clk (IN)
+                         net (fo=0)                   0.000    10.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.920    13.331    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
+                         net (fo=14535, routed)       1.719    15.141    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X76Y33         FDCE                                         r  u_giftcofb/gift_in_reg[106]/C
+                         clock pessimism              0.195    15.337    
+                         clock uncertainty           -0.035    15.301    
+    SLICE_X76Y33         FDCE (Setup_fdce_C_D)        0.077    15.378    u_giftcofb/gift_in_reg[106]
+  -------------------------------------------------------------------
+                         required time                         15.378    
+                         arrival time                         -15.114    
+  -------------------------------------------------------------------
+                         slack                                  0.265    
+
+Slack (MET) :             0.320ns  (required time - arrival time)
+  Source:                 u_giftcofb/FSM_sequential_state_reg[3]/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_giftcofb/L_reg[18]/CE
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
+  Data Path Delay:        9.371ns  (logic 0.840ns (8.964%)  route 8.531ns (91.036%))
+  Logic Levels:           2  (LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.069ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.149ns = ( 15.149 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.414ns
+    Clock Pessimism Removal (CPR):    0.195ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.025     3.506    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
+                         net (fo=14535, routed)       1.811     5.414    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X36Y40         FDCE                                         r  u_giftcofb/FSM_sequential_state_reg[3]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X36Y40         FDCE (Prop_fdce_C_Q)         0.419     5.833 f  u_giftcofb/FSM_sequential_state_reg[3]/Q
+                         net (fo=102, routed)         2.054     7.886    u_giftcofb/state[3]
+    SLICE_X41Y40         LUT5 (Prop_lut5_I1_O)        0.297     8.183 r  u_giftcofb/gift_start_i_1/O
+                         net (fo=131, routed)         1.462     9.645    u_giftcofb/u_gift/FSM_sequential_state_reg[2]_rep_3[0]
+    SLICE_X35Y44         LUT6 (Prop_lut6_I0_O)        0.124     9.769 r  u_giftcofb/u_gift/L[63]_i_1/O
+                         net (fo=64, routed)          5.015    14.784    u_giftcofb/u_gift_n_196
+    SLICE_X77Y47         FDCE                                         r  u_giftcofb/L_reg[18]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)       10.000    10.000 r  
+    E3                                                0.000    10.000 r  clk (IN)
+                         net (fo=0)                   0.000    10.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.920    13.331    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
+                         net (fo=14535, routed)       1.727    15.149    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X77Y47         FDCE                                         r  u_giftcofb/L_reg[18]/C
+                         clock pessimism              0.195    15.345    
+                         clock uncertainty           -0.035    15.309    
+    SLICE_X77Y47         FDCE (Setup_fdce_C_CE)      -0.205    15.104    u_giftcofb/L_reg[18]
+  -------------------------------------------------------------------
+                         required time                         15.104    
+                         arrival time                         -14.784    
+  -------------------------------------------------------------------
+                         slack                                  0.320    
+
+Slack (MET) :             0.388ns  (required time - arrival time)
+  Source:                 u_giftcofb/remaining_msg_reg[1]/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_giftcofb/gift_in_reg[77]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
+  Data Path Delay:        9.485ns  (logic 1.200ns (12.651%)  route 8.285ns (87.349%))
+  Logic Levels:           6  (LUT4=2 LUT5=1 LUT6=3)
+  Clock Path Skew:        -0.120ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.097ns = ( 15.097 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.413ns
+    Clock Pessimism Removal (CPR):    0.195ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.025     3.506    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
+                         net (fo=14535, routed)       1.810     5.413    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X35Y38         FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y38         FDCE (Prop_fdce_C_Q)         0.456     5.869 r  u_giftcofb/remaining_msg_reg[1]/Q
+                         net (fo=10, routed)          0.839     6.707    u_giftcofb/remaining_msg_reg_n_0_[1]
+    SLICE_X36Y39         LUT4 (Prop_lut4_I3_O)        0.124     6.831 f  u_giftcofb/is_last_msg_i_3/O
+                         net (fo=75, routed)          0.709     7.541    u_giftcofb/is_last_msg_i_3_n_0
+    SLICE_X36Y39         LUT5 (Prop_lut5_I0_O)        0.124     7.665 r  u_giftcofb/data_out[70]_i_5/O
+                         net (fo=70, routed)          1.741     9.406    u_giftcofb/data_out[70]_i_5_n_0
+    SLICE_X45Y38         LUT4 (Prop_lut4_I1_O)        0.124     9.530 r  u_giftcofb/data_out[70]_i_2/O
+                         net (fo=142, routed)         3.288    12.818    u_giftcofb/data_out[70]_i_2_n_0
+    SLICE_X72Y39         LUT6 (Prop_lut6_I0_O)        0.124    12.942 r  u_giftcofb/data_out[77]_i_2/O
+                         net (fo=2, routed)           1.043    13.985    u_giftcofb/u_phop_msg/pho1_inst/pad_inst/phop_M[63]
+    SLICE_X71Y40         LUT6 (Prop_lut6_I5_O)        0.124    14.109 r  u_giftcofb/u_phop_msg/pho1_inst/pad_inst/gift_in[77]_i_2/O
+                         net (fo=1, routed)           0.665    14.774    u_giftcofb/pho1_inst/M_padded_0[77]
+    SLICE_X71Y40         LUT6 (Prop_lut6_I0_O)        0.124    14.898 r  u_giftcofb/gift_in[77]_i_1/O
+                         net (fo=1, routed)           0.000    14.898    u_giftcofb/gift_in[77]_i_1_n_0
+    SLICE_X71Y40         FDCE                                         r  u_giftcofb/gift_in_reg[77]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)       10.000    10.000 r  
+    E3                                                0.000    10.000 r  clk (IN)
+                         net (fo=0)                   0.000    10.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.920    13.331    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
+                         net (fo=14535, routed)       1.675    15.097    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X71Y40         FDCE                                         r  u_giftcofb/gift_in_reg[77]/C
+                         clock pessimism              0.195    15.293    
+                         clock uncertainty           -0.035    15.257    
+    SLICE_X71Y40         FDCE (Setup_fdce_C_D)        0.029    15.286    u_giftcofb/gift_in_reg[77]
+  -------------------------------------------------------------------
+                         required time                         15.286    
+                         arrival time                         -14.898    
+  -------------------------------------------------------------------
+                         slack                                  0.388    
+
+Slack (MET) :             0.455ns  (required time - arrival time)
+  Source:                 u_giftcofb/FSM_sequential_state_reg[3]/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_giftcofb/L_reg[14]/CE
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
+  Data Path Delay:        9.236ns  (logic 0.840ns (9.095%)  route 8.396ns (90.905%))
+  Logic Levels:           2  (LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.069ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.149ns = ( 15.149 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.414ns
+    Clock Pessimism Removal (CPR):    0.195ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.025     3.506    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
+                         net (fo=14535, routed)       1.811     5.414    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X36Y40         FDCE                                         r  u_giftcofb/FSM_sequential_state_reg[3]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X36Y40         FDCE (Prop_fdce_C_Q)         0.419     5.833 f  u_giftcofb/FSM_sequential_state_reg[3]/Q
+                         net (fo=102, routed)         2.054     7.886    u_giftcofb/state[3]
+    SLICE_X41Y40         LUT5 (Prop_lut5_I1_O)        0.297     8.183 r  u_giftcofb/gift_start_i_1/O
+                         net (fo=131, routed)         1.462     9.645    u_giftcofb/u_gift/FSM_sequential_state_reg[2]_rep_3[0]
+    SLICE_X35Y44         LUT6 (Prop_lut6_I0_O)        0.124     9.769 r  u_giftcofb/u_gift/L[63]_i_1/O
+                         net (fo=64, routed)          4.880    14.650    u_giftcofb/u_gift_n_196
+    SLICE_X73Y46         FDCE                                         r  u_giftcofb/L_reg[14]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)       10.000    10.000 r  
+    E3                                                0.000    10.000 r  clk (IN)
+                         net (fo=0)                   0.000    10.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.920    13.331    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
+                         net (fo=14535, routed)       1.727    15.149    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X73Y46         FDCE                                         r  u_giftcofb/L_reg[14]/C
+                         clock pessimism              0.195    15.345    
+                         clock uncertainty           -0.035    15.309    
+    SLICE_X73Y46         FDCE (Setup_fdce_C_CE)      -0.205    15.104    u_giftcofb/L_reg[14]
+  -------------------------------------------------------------------
+                         required time                         15.104    
+                         arrival time                         -14.650    
+  -------------------------------------------------------------------
+                         slack                                  0.455    
+
+Slack (MET) :             0.463ns  (required time - arrival time)
+  Source:                 u_giftcofb/FSM_sequential_state_reg[3]/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_giftcofb/L_reg[17]/CE
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
+  Data Path Delay:        9.227ns  (logic 0.840ns (9.103%)  route 8.387ns (90.897%))
+  Logic Levels:           2  (LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.069ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.149ns = ( 15.149 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.414ns
+    Clock Pessimism Removal (CPR):    0.195ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.025     3.506    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
+                         net (fo=14535, routed)       1.811     5.414    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X36Y40         FDCE                                         r  u_giftcofb/FSM_sequential_state_reg[3]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X36Y40         FDCE (Prop_fdce_C_Q)         0.419     5.833 f  u_giftcofb/FSM_sequential_state_reg[3]/Q
+                         net (fo=102, routed)         2.054     7.886    u_giftcofb/state[3]
+    SLICE_X41Y40         LUT5 (Prop_lut5_I1_O)        0.297     8.183 r  u_giftcofb/gift_start_i_1/O
+                         net (fo=131, routed)         1.462     9.645    u_giftcofb/u_gift/FSM_sequential_state_reg[2]_rep_3[0]
+    SLICE_X35Y44         LUT6 (Prop_lut6_I0_O)        0.124     9.769 r  u_giftcofb/u_gift/L[63]_i_1/O
+                         net (fo=64, routed)          4.872    14.641    u_giftcofb/u_gift_n_196
+    SLICE_X77Y49         FDCE                                         r  u_giftcofb/L_reg[17]/CE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)       10.000    10.000 r  
+    E3                                                0.000    10.000 r  clk (IN)
+                         net (fo=0)                   0.000    10.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           1.920    13.331    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
+                         net (fo=14535, routed)       1.727    15.149    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X77Y49         FDCE                                         r  u_giftcofb/L_reg[17]/C
+                         clock pessimism              0.195    15.345    
+                         clock uncertainty           -0.035    15.309    
+    SLICE_X77Y49         FDCE (Setup_fdce_C_CE)      -0.205    15.104    u_giftcofb/L_reg[17]
+  -------------------------------------------------------------------
+                         required time                         15.104    
+                         arrival time                         -14.641    
+  -------------------------------------------------------------------
+                         slack                                  0.463    
+
+Slack (MET) :             0.509ns  (required time - arrival time)
+  Source:                 u_giftcofb/remaining_msg_reg[1]/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Destination:            u_giftcofb/gift_in_reg[42]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
+  Data Path Delay:        9.410ns  (logic 1.200ns (12.752%)  route 8.210ns (87.248%))
+  Logic Levels:           6  (LUT4=2 LUT5=1 LUT6=3)
+  Clock Path Skew:        -0.075ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.142ns = ( 15.142 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.413ns
+    Clock Pessimism Removal (CPR):    0.195ns
+  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    E3                                                0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk
+    E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
+                         net (fo=1, routed)           2.025     3.506    clk_IBUF
+    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
+                         net (fo=14535, routed)       1.810     5.413    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X35Y38         FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X35Y38         FDCE (Prop_fdce_C_Q)         0.456     5.869 r  u_giftcofb/remaining_msg_reg[1]/Q
+                         net (fo=10, routed)          0.839     6.707    u_giftcofb/remaining_msg_reg_n_0_[1]
+    SLICE_X36Y39         LUT4 (Prop_lut4_I3_O)        0.124     6.831 f  u_giftcofb/is_last_msg_i_3/O
+                         net (fo=75, routed)          0.709     7.541    u_giftcofb/is_last_msg_i_3_n_0
+    SLICE_X36Y39         LUT5 (Prop_lut5_I0_O)        0.124     7.665 r  u_giftcofb/data_out[70]_i_5/O
+                         net (fo=70, routed)          1.741     9.406    u_giftcofb/data_out[70]_i_5_n_0
+    SLICE_X45Y38         LUT4 (Prop_lut4_I1_O)        0.124     9.530 r  u_giftcofb/data_out[70]_i_2/O
+                         net (fo=142, routed)         3.675    13.205    u_giftcofb/data_out[70]_i_2_n_0
+    SLICE_X75Y34         LUT6 (Prop_lut6_I0_O)        0.124    13.329 r  u_giftcofb/data_out[42]_i_2/O
+                         net (fo=2, routed)           0.632    13.961    u_giftcofb/u_phop_msg/pho1_inst/pad_inst/phop_M[35]
+    SLICE_X75Y35         LUT6 (Prop_lut6_I1_O)        0.124    14.085 r  u_giftcofb/u_phop_msg/pho1_inst/pad_inst/gift_in[42]_i_2/O
+                         net (fo=1, routed)           0.614    14.699    u_giftcofb/pho1_inst/M_padded_0[42]
+    SLICE_X73Y33         LUT6 (Prop_lut6_I0_O)        0.124    14.823 r  u_giftcofb/gift_in[42]_i_1/O
+                         net (fo=1, routed)           0.000    14.823    u_giftcofb/gift_in[42]_i_1_n_0
+    SLICE_X73Y33         FDCE                                         r  u_giftcofb/gift_in_reg[42]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk rise edge)       10.000    10.000 r  
@@ -63,148 +425,30 @@ Slack (VIOLATED) :        -0.080ns  (required time - arrival time)
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
                          net (fo=14535, routed)       1.720    15.142    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X75Y199        FDCE                                         r  u_giftcofb/gift_in_reg[30]/C
-                         clock pessimism              0.188    15.330    
-                         clock uncertainty           -0.035    15.295    
-    SLICE_X75Y199        FDCE (Setup_fdce_C_D)        0.029    15.324    u_giftcofb/gift_in_reg[30]
+    SLICE_X73Y33         FDCE                                         r  u_giftcofb/gift_in_reg[42]/C
+                         clock pessimism              0.195    15.338    
+                         clock uncertainty           -0.035    15.302    
+    SLICE_X73Y33         FDCE (Setup_fdce_C_D)        0.029    15.331    u_giftcofb/gift_in_reg[42]
   -------------------------------------------------------------------
-                         required time                         15.324    
-                         arrival time                         -15.404    
+                         required time                         15.331    
+                         arrival time                         -14.823    
   -------------------------------------------------------------------
-                         slack                                 -0.080    
+                         slack                                  0.509    
 
-Slack (VIOLATED) :        -0.076ns  (required time - arrival time)
+Slack (MET) :             0.546ns  (required time - arrival time)
   Source:                 u_giftcofb/remaining_msg_reg[1]/C
                             (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            u_giftcofb/gift_in_reg[26]/D
+  Destination:            u_giftcofb/gift_in_reg[108]/D
                             (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             clk
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
-  Data Path Delay:        10.047ns  (logic 0.952ns (9.476%)  route 9.095ns (90.524%))
-  Logic Levels:           4  (LUT4=1 LUT6=3)
-  Clock Path Skew:        -0.023ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.093ns = ( 15.093 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.304ns
-    Clock Pessimism Removal (CPR):    0.188ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk rise edge)        0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           2.025     3.506    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.702     5.304    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X83Y130        FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X83Y130        FDCE (Prop_fdce_C_Q)         0.456     5.760 f  u_giftcofb/remaining_msg_reg[1]/Q
-                         net (fo=10, routed)          0.999     6.760    u_giftcofb/remaining_msg_reg_n_0_[1]
-    SLICE_X83Y132        LUT4 (Prop_lut4_I3_O)        0.124     6.884 r  u_giftcofb/is_last_msg_i_3/O
-                         net (fo=75, routed)          0.910     7.794    u_giftcofb/is_last_msg_i_3_n_0
-    SLICE_X82Y131        LUT6 (Prop_lut6_I5_O)        0.124     7.918 r  u_giftcofb/gift_in[126]_i_7/O
-                         net (fo=132, routed)         6.611    14.529    u_giftcofb/u_pho_msg/pho1_inst/pad_inst/gift_in_reg[24]
-    SLICE_X71Y199        LUT6 (Prop_lut6_I2_O)        0.124    14.653 r  u_giftcofb/u_pho_msg/pho1_inst/pad_inst/gift_in[26]_i_3/O
-                         net (fo=1, routed)           0.574    15.227    u_giftcofb/pho1_inst/M_padded[26]
-    SLICE_X71Y199        LUT6 (Prop_lut6_I2_O)        0.124    15.351 r  u_giftcofb/gift_in[26]_i_1/O
-                         net (fo=1, routed)           0.000    15.351    u_giftcofb/gift_in[26]_i_1_n_0
-    SLICE_X71Y199        FDCE                                         r  u_giftcofb/gift_in_reg[26]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk rise edge)       10.000    10.000 r  
-    E3                                                0.000    10.000 r  clk (IN)
-                         net (fo=0)                   0.000    10.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           1.920    13.331    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.671    15.093    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X71Y199        FDCE                                         r  u_giftcofb/gift_in_reg[26]/C
-                         clock pessimism              0.188    15.281    
-                         clock uncertainty           -0.035    15.246    
-    SLICE_X71Y199        FDCE (Setup_fdce_C_D)        0.029    15.275    u_giftcofb/gift_in_reg[26]
-  -------------------------------------------------------------------
-                         required time                         15.275    
-                         arrival time                         -15.351    
-  -------------------------------------------------------------------
-                         slack                                 -0.076    
-
-Slack (VIOLATED) :        -0.035ns  (required time - arrival time)
-  Source:                 u_giftcofb/FSM_sequential_state_reg[0]/C
-                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            u_giftcofb/L_reg[29]/D
-                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
-  Data Path Delay:        10.000ns  (logic 0.704ns (7.040%)  route 9.296ns (92.960%))
-  Logic Levels:           2  (LUT6=2)
-  Clock Path Skew:        -0.029ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.090ns = ( 15.090 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.307ns
-    Clock Pessimism Removal (CPR):    0.188ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk rise edge)        0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           2.025     3.506    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.705     5.307    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X86Y131        FDCE                                         r  u_giftcofb/FSM_sequential_state_reg[0]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X86Y131        FDCE (Prop_fdce_C_Q)         0.456     5.763 r  u_giftcofb/FSM_sequential_state_reg[0]/Q
-                         net (fo=85, routed)          8.827    14.590    u_giftcofb/u_gift/Q[0]
-    SLICE_X71Y190        LUT6 (Prop_lut6_I1_O)        0.124    14.714 r  u_giftcofb/u_gift/L[29]_i_2/O
-                         net (fo=1, routed)           0.469    15.183    u_giftcofb/u_gift/L[29]_i_2_n_0
-    SLICE_X71Y190        LUT6 (Prop_lut6_I1_O)        0.124    15.307 r  u_giftcofb/u_gift/L[29]_i_1/O
-                         net (fo=1, routed)           0.000    15.307    u_giftcofb/u_gift_n_34
-    SLICE_X71Y190        FDCE                                         r  u_giftcofb/L_reg[29]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk rise edge)       10.000    10.000 r  
-    E3                                                0.000    10.000 r  clk (IN)
-                         net (fo=0)                   0.000    10.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           1.920    13.331    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.668    15.090    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X71Y190        FDCE                                         r  u_giftcofb/L_reg[29]/C
-                         clock pessimism              0.188    15.278    
-                         clock uncertainty           -0.035    15.243    
-    SLICE_X71Y190        FDCE (Setup_fdce_C_D)        0.029    15.272    u_giftcofb/L_reg[29]
-  -------------------------------------------------------------------
-                         required time                         15.272    
-                         arrival time                         -15.307    
-  -------------------------------------------------------------------
-                         slack                                 -0.035    
-
-Slack (VIOLATED) :        -0.021ns  (required time - arrival time)
-  Source:                 u_giftcofb/remaining_msg_reg[1]/C
-                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            u_giftcofb/gift_in_reg[126]/D
-                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
-  Data Path Delay:        9.990ns  (logic 1.200ns (12.012%)  route 8.790ns (87.988%))
+  Data Path Delay:        9.368ns  (logic 1.200ns (12.810%)  route 8.168ns (87.190%))
   Logic Levels:           6  (LUT4=2 LUT5=1 LUT6=3)
-  Clock Path Skew:        -0.024ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.092ns = ( 15.092 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.304ns
-    Clock Pessimism Removal (CPR):    0.188ns
+  Clock Path Skew:        -0.080ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.137ns = ( 15.137 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.413ns
+    Clock Pessimism Removal (CPR):    0.195ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -219,85 +463,24 @@ Slack (VIOLATED) :        -0.021ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.702     5.304    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X83Y130        FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
+                         net (fo=14535, routed)       1.810     5.413    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X35Y38         FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X83Y130        FDCE (Prop_fdce_C_Q)         0.456     5.760 r  u_giftcofb/remaining_msg_reg[1]/Q
-                         net (fo=10, routed)          0.999     6.760    u_giftcofb/remaining_msg_reg_n_0_[1]
-    SLICE_X83Y132        LUT4 (Prop_lut4_I3_O)        0.124     6.884 f  u_giftcofb/is_last_msg_i_3/O
-                         net (fo=75, routed)          0.851     7.734    u_giftcofb/is_last_msg_i_3_n_0
-    SLICE_X86Y132        LUT5 (Prop_lut5_I0_O)        0.124     7.858 r  u_giftcofb/data_out[70]_i_5/O
-                         net (fo=70, routed)          1.390     9.248    u_giftcofb/data_out[70]_i_5_n_0
-    SLICE_X79Y134        LUT4 (Prop_lut4_I1_O)        0.124     9.372 r  u_giftcofb/data_out[70]_i_2/O
-                         net (fo=142, routed)         4.023    13.395    u_giftcofb/data_out[70]_i_2_n_0
-    SLICE_X71Y191        LUT6 (Prop_lut6_I0_O)        0.124    13.519 r  u_giftcofb/data_out[126]_i_2/O
-                         net (fo=2, routed)           0.892    14.411    u_giftcofb/u_phop_msg/pho1_inst/pad_inst/phop_M[112]
-    SLICE_X71Y191        LUT6 (Prop_lut6_I5_O)        0.124    14.535 r  u_giftcofb/u_phop_msg/pho1_inst/pad_inst/gift_in[126]_i_2/O
-                         net (fo=1, routed)           0.636    15.171    u_giftcofb/pho1_inst/M_padded_0[126]
-    SLICE_X71Y193        LUT6 (Prop_lut6_I0_O)        0.124    15.295 r  u_giftcofb/gift_in[126]_i_1/O
-                         net (fo=1, routed)           0.000    15.295    u_giftcofb/gift_in[126]_i_1_n_0
-    SLICE_X71Y193        FDCE                                         r  u_giftcofb/gift_in_reg[126]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk rise edge)       10.000    10.000 r  
-    E3                                                0.000    10.000 r  clk (IN)
-                         net (fo=0)                   0.000    10.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           1.920    13.331    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.670    15.092    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X71Y193        FDCE                                         r  u_giftcofb/gift_in_reg[126]/C
-                         clock pessimism              0.188    15.280    
-                         clock uncertainty           -0.035    15.245    
-    SLICE_X71Y193        FDCE (Setup_fdce_C_D)        0.029    15.274    u_giftcofb/gift_in_reg[126]
-  -------------------------------------------------------------------
-                         required time                         15.274    
-                         arrival time                         -15.295    
-  -------------------------------------------------------------------
-                         slack                                 -0.021    
-
-Slack (MET) :             0.002ns  (required time - arrival time)
-  Source:                 u_giftcofb/remaining_msg_reg[1]/C
-                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            u_giftcofb/gift_in_reg[93]/D
-                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
-  Data Path Delay:        10.021ns  (logic 0.952ns (9.500%)  route 9.069ns (90.500%))
-  Logic Levels:           4  (LUT4=1 LUT6=3)
-  Clock Path Skew:        0.027ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.143ns = ( 15.143 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.304ns
-    Clock Pessimism Removal (CPR):    0.188ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk rise edge)        0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           2.025     3.506    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.702     5.304    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X83Y130        FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X83Y130        FDCE (Prop_fdce_C_Q)         0.456     5.760 f  u_giftcofb/remaining_msg_reg[1]/Q
-                         net (fo=10, routed)          0.999     6.760    u_giftcofb/remaining_msg_reg_n_0_[1]
-    SLICE_X83Y132        LUT4 (Prop_lut4_I3_O)        0.124     6.884 r  u_giftcofb/is_last_msg_i_3/O
-                         net (fo=75, routed)          0.910     7.794    u_giftcofb/is_last_msg_i_3_n_0
-    SLICE_X82Y131        LUT6 (Prop_lut6_I5_O)        0.124     7.918 r  u_giftcofb/gift_in[126]_i_7/O
-                         net (fo=132, routed)         6.493    14.410    u_giftcofb/u_phop_msg/pho1_inst/pad_inst/gift_in_reg[24]
-    SLICE_X72Y199        LUT6 (Prop_lut6_I4_O)        0.124    14.534 r  u_giftcofb/u_phop_msg/pho1_inst/pad_inst/gift_in[93]_i_2/O
-                         net (fo=1, routed)           0.667    15.201    u_giftcofb/pho1_inst/M_padded_0[93]
-    SLICE_X72Y199        LUT6 (Prop_lut6_I0_O)        0.124    15.325 r  u_giftcofb/gift_in[93]_i_1/O
-                         net (fo=1, routed)           0.000    15.325    u_giftcofb/gift_in[93]_i_1_n_0
-    SLICE_X72Y199        FDCE                                         r  u_giftcofb/gift_in_reg[93]/D
+    SLICE_X35Y38         FDCE (Prop_fdce_C_Q)         0.456     5.869 r  u_giftcofb/remaining_msg_reg[1]/Q
+                         net (fo=10, routed)          0.839     6.707    u_giftcofb/remaining_msg_reg_n_0_[1]
+    SLICE_X36Y39         LUT4 (Prop_lut4_I3_O)        0.124     6.831 f  u_giftcofb/is_last_msg_i_3/O
+                         net (fo=75, routed)          0.709     7.541    u_giftcofb/is_last_msg_i_3_n_0
+    SLICE_X36Y39         LUT5 (Prop_lut5_I0_O)        0.124     7.665 r  u_giftcofb/data_out[70]_i_5/O
+                         net (fo=70, routed)          1.741     9.406    u_giftcofb/data_out[70]_i_5_n_0
+    SLICE_X45Y38         LUT4 (Prop_lut4_I1_O)        0.124     9.530 r  u_giftcofb/data_out[70]_i_2/O
+                         net (fo=142, routed)         3.886    13.416    u_giftcofb/data_out[70]_i_2_n_0
+    SLICE_X76Y30         LUT6 (Prop_lut6_I0_O)        0.124    13.540 r  u_giftcofb/data_out[108]_i_2/O
+                         net (fo=2, routed)           0.704    14.244    u_giftcofb/u_phop_msg/pho1_inst/pad_inst/phop_M[94]
+    SLICE_X76Y30         LUT6 (Prop_lut6_I5_O)        0.124    14.368 r  u_giftcofb/u_phop_msg/pho1_inst/pad_inst/gift_in[108]_i_2/O
+                         net (fo=1, routed)           0.288    14.656    u_giftcofb/pho1_inst/M_padded_0[108]
+    SLICE_X75Y30         LUT6 (Prop_lut6_I0_O)        0.124    14.780 r  u_giftcofb/gift_in[108]_i_1/O
+                         net (fo=1, routed)           0.000    14.780    u_giftcofb/gift_in[108]_i_1_n_0
+    SLICE_X75Y30         FDCE                                         r  u_giftcofb/gift_in_reg[108]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk rise edge)       10.000    10.000 r  
@@ -306,31 +489,31 @@ Slack (MET) :             0.002ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.721    15.143    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X72Y199        FDCE                                         r  u_giftcofb/gift_in_reg[93]/C
-                         clock pessimism              0.188    15.331    
-                         clock uncertainty           -0.035    15.296    
-    SLICE_X72Y199        FDCE (Setup_fdce_C_D)        0.031    15.327    u_giftcofb/gift_in_reg[93]
+                         net (fo=14535, routed)       1.715    15.137    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X75Y30         FDCE                                         r  u_giftcofb/gift_in_reg[108]/C
+                         clock pessimism              0.195    15.333    
+                         clock uncertainty           -0.035    15.297    
+    SLICE_X75Y30         FDCE (Setup_fdce_C_D)        0.029    15.326    u_giftcofb/gift_in_reg[108]
   -------------------------------------------------------------------
-                         required time                         15.327    
-                         arrival time                         -15.325    
+                         required time                         15.326    
+                         arrival time                         -14.780    
   -------------------------------------------------------------------
-                         slack                                  0.002    
+                         slack                                  0.546    
 
-Slack (MET) :             0.054ns  (required time - arrival time)
+Slack (MET) :             0.589ns  (required time - arrival time)
   Source:                 u_giftcofb/remaining_msg_reg[1]/C
                             (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            u_giftcofb/gift_in_reg[58]/D
+  Destination:            u_giftcofb/gift_in_reg[50]/D
                             (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             clk
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
-  Data Path Delay:        9.966ns  (logic 1.200ns (12.041%)  route 8.766ns (87.959%))
+  Data Path Delay:        9.329ns  (logic 1.200ns (12.863%)  route 8.129ns (87.137%))
   Logic Levels:           6  (LUT4=2 LUT5=1 LUT6=3)
-  Clock Path Skew:        0.026ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.142ns = ( 15.142 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.304ns
-    Clock Pessimism Removal (CPR):    0.188ns
+  Clock Path Skew:        -0.076ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.141ns = ( 15.141 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.413ns
+    Clock Pessimism Removal (CPR):    0.195ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -345,24 +528,24 @@ Slack (MET) :             0.054ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.702     5.304    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X83Y130        FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
+                         net (fo=14535, routed)       1.810     5.413    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X35Y38         FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X83Y130        FDCE (Prop_fdce_C_Q)         0.456     5.760 r  u_giftcofb/remaining_msg_reg[1]/Q
-                         net (fo=10, routed)          0.999     6.760    u_giftcofb/remaining_msg_reg_n_0_[1]
-    SLICE_X83Y132        LUT4 (Prop_lut4_I3_O)        0.124     6.884 f  u_giftcofb/is_last_msg_i_3/O
-                         net (fo=75, routed)          0.851     7.734    u_giftcofb/is_last_msg_i_3_n_0
-    SLICE_X86Y132        LUT5 (Prop_lut5_I0_O)        0.124     7.858 r  u_giftcofb/data_out[70]_i_5/O
-                         net (fo=70, routed)          1.390     9.248    u_giftcofb/data_out[70]_i_5_n_0
-    SLICE_X79Y134        LUT4 (Prop_lut4_I1_O)        0.124     9.372 r  u_giftcofb/data_out[70]_i_2/O
-                         net (fo=142, routed)         3.897    13.269    u_giftcofb/data_out[70]_i_2_n_0
-    SLICE_X69Y193        LUT6 (Prop_lut6_I0_O)        0.124    13.393 r  u_giftcofb/data_out[58]_i_2/O
-                         net (fo=2, routed)           0.677    14.070    u_giftcofb/u_phop_msg/pho1_inst/pad_inst/phop_M[51]
-    SLICE_X69Y193        LUT6 (Prop_lut6_I1_O)        0.124    14.194 r  u_giftcofb/u_phop_msg/pho1_inst/pad_inst/gift_in[58]_i_2/O
-                         net (fo=1, routed)           0.952    15.146    u_giftcofb/pho1_inst/M_padded_0[58]
-    SLICE_X73Y193        LUT6 (Prop_lut6_I0_O)        0.124    15.270 r  u_giftcofb/gift_in[58]_i_1/O
-                         net (fo=1, routed)           0.000    15.270    u_giftcofb/gift_in[58]_i_1_n_0
-    SLICE_X73Y193        FDCE                                         r  u_giftcofb/gift_in_reg[58]/D
+    SLICE_X35Y38         FDCE (Prop_fdce_C_Q)         0.456     5.869 r  u_giftcofb/remaining_msg_reg[1]/Q
+                         net (fo=10, routed)          0.839     6.707    u_giftcofb/remaining_msg_reg_n_0_[1]
+    SLICE_X36Y39         LUT4 (Prop_lut4_I3_O)        0.124     6.831 f  u_giftcofb/is_last_msg_i_3/O
+                         net (fo=75, routed)          0.709     7.541    u_giftcofb/is_last_msg_i_3_n_0
+    SLICE_X36Y39         LUT5 (Prop_lut5_I0_O)        0.124     7.665 r  u_giftcofb/data_out[70]_i_5/O
+                         net (fo=70, routed)          1.741     9.406    u_giftcofb/data_out[70]_i_5_n_0
+    SLICE_X45Y38         LUT4 (Prop_lut4_I1_O)        0.124     9.530 r  u_giftcofb/data_out[70]_i_2/O
+                         net (fo=142, routed)         3.536    13.066    u_giftcofb/data_out[70]_i_2_n_0
+    SLICE_X75Y32         LUT6 (Prop_lut6_I0_O)        0.124    13.190 r  u_giftcofb/data_out[50]_i_2/O
+                         net (fo=2, routed)           0.682    13.872    u_giftcofb/u_phop_msg/pho1_inst/pad_inst/phop_M[43]
+    SLICE_X75Y32         LUT6 (Prop_lut6_I2_O)        0.124    13.996 r  u_giftcofb/u_phop_msg/pho1_inst/pad_inst/gift_in[50]_i_2/O
+                         net (fo=1, routed)           0.622    14.618    u_giftcofb/pho1_inst/M_padded_0[50]
+    SLICE_X75Y33         LUT6 (Prop_lut6_I0_O)        0.124    14.742 r  u_giftcofb/gift_in[50]_i_1/O
+                         net (fo=1, routed)           0.000    14.742    u_giftcofb/gift_in[50]_i_1_n_0
+    SLICE_X75Y33         FDCE                                         r  u_giftcofb/gift_in_reg[50]/D
   -------------------------------------------------------------------    -------------------
 
                          (clock clk rise edge)       10.000    10.000 r  
@@ -371,31 +554,31 @@ Slack (MET) :             0.054ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.720    15.142    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X73Y193        FDCE                                         r  u_giftcofb/gift_in_reg[58]/C
-                         clock pessimism              0.188    15.330    
-                         clock uncertainty           -0.035    15.295    
-    SLICE_X73Y193        FDCE (Setup_fdce_C_D)        0.029    15.324    u_giftcofb/gift_in_reg[58]
+                         net (fo=14535, routed)       1.719    15.141    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X75Y33         FDCE                                         r  u_giftcofb/gift_in_reg[50]/C
+                         clock pessimism              0.195    15.337    
+                         clock uncertainty           -0.035    15.301    
+    SLICE_X75Y33         FDCE (Setup_fdce_C_D)        0.029    15.330    u_giftcofb/gift_in_reg[50]
   -------------------------------------------------------------------
-                         required time                         15.324    
-                         arrival time                         -15.270    
+                         required time                         15.330    
+                         arrival time                         -14.742    
   -------------------------------------------------------------------
-                         slack                                  0.054    
+                         slack                                  0.589    
 
-Slack (MET) :             0.065ns  (required time - arrival time)
-  Source:                 u_giftcofb/remaining_msg_reg[1]/C
+Slack (MET) :             0.606ns  (required time - arrival time)
+  Source:                 u_giftcofb/FSM_sequential_state_reg[3]/C
                             (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            u_giftcofb/gift_in_reg[28]/D
+  Destination:            u_giftcofb/L_reg[46]/CE
                             (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
   Path Group:             clk
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
-  Data Path Delay:        9.906ns  (logic 0.952ns (9.610%)  route 8.954ns (90.390%))
-  Logic Levels:           4  (LUT4=1 LUT6=3)
-  Clock Path Skew:        -0.023ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.093ns = ( 15.093 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.304ns
-    Clock Pessimism Removal (CPR):    0.188ns
+  Data Path Delay:        9.085ns  (logic 0.840ns (9.246%)  route 8.245ns (90.754%))
+  Logic Levels:           2  (LUT5=1 LUT6=1)
+  Clock Path Skew:        -0.069ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    5.149ns = ( 15.149 - 10.000 ) 
+    Source Clock Delay      (SCD):    5.414ns
+    Clock Pessimism Removal (CPR):    0.195ns
   Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
     Total System Jitter     (TSJ):    0.071ns
     Total Input Jitter      (TIJ):    0.000ns
@@ -410,20 +593,16 @@ Slack (MET) :             0.065ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
                          net (fo=1, routed)           2.025     3.506    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.702     5.304    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X83Y130        FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
+                         net (fo=14535, routed)       1.811     5.414    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X36Y40         FDCE                                         r  u_giftcofb/FSM_sequential_state_reg[3]/C
   -------------------------------------------------------------------    -------------------
-    SLICE_X83Y130        FDCE (Prop_fdce_C_Q)         0.456     5.760 f  u_giftcofb/remaining_msg_reg[1]/Q
-                         net (fo=10, routed)          0.999     6.760    u_giftcofb/remaining_msg_reg_n_0_[1]
-    SLICE_X83Y132        LUT4 (Prop_lut4_I3_O)        0.124     6.884 r  u_giftcofb/is_last_msg_i_3/O
-                         net (fo=75, routed)          0.867     7.751    u_giftcofb/is_last_msg_i_3_n_0
-    SLICE_X85Y132        LUT6 (Prop_lut6_I5_O)        0.124     7.875 r  u_giftcofb/gift_in[126]_i_5/O
-                         net (fo=154, routed)         6.643    14.518    u_giftcofb/u_pho_msg/pho1_inst/pad_inst/gift_in_reg[16]
-    SLICE_X68Y199        LUT6 (Prop_lut6_I1_O)        0.124    14.642 r  u_giftcofb/u_pho_msg/pho1_inst/pad_inst/gift_in[28]_i_3/O
-                         net (fo=1, routed)           0.444    15.086    u_giftcofb/pho1_inst/M_padded[28]
-    SLICE_X68Y199        LUT6 (Prop_lut6_I2_O)        0.124    15.210 r  u_giftcofb/gift_in[28]_i_1/O
-                         net (fo=1, routed)           0.000    15.210    u_giftcofb/gift_in[28]_i_1_n_0
-    SLICE_X68Y199        FDCE                                         r  u_giftcofb/gift_in_reg[28]/D
+    SLICE_X36Y40         FDCE (Prop_fdce_C_Q)         0.419     5.833 f  u_giftcofb/FSM_sequential_state_reg[3]/Q
+                         net (fo=102, routed)         2.054     7.886    u_giftcofb/state[3]
+    SLICE_X41Y40         LUT5 (Prop_lut5_I1_O)        0.297     8.183 r  u_giftcofb/gift_start_i_1/O
+                         net (fo=131, routed)         1.462     9.645    u_giftcofb/u_gift/FSM_sequential_state_reg[2]_rep_3[0]
+    SLICE_X35Y44         LUT6 (Prop_lut6_I0_O)        0.124     9.769 r  u_giftcofb/u_gift/L[63]_i_1/O
+                         net (fo=64, routed)          4.729    14.498    u_giftcofb/u_gift_n_196
+    SLICE_X75Y49         FDCE                                         r  u_giftcofb/L_reg[46]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock clk rise edge)       10.000    10.000 r  
@@ -432,207 +611,16 @@ Slack (MET) :             0.065ns  (required time - arrival time)
     E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
                          net (fo=1, routed)           1.920    13.331    clk_IBUF
     BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.671    15.093    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X68Y199        FDCE                                         r  u_giftcofb/gift_in_reg[28]/C
-                         clock pessimism              0.188    15.281    
-                         clock uncertainty           -0.035    15.246    
-    SLICE_X68Y199        FDCE (Setup_fdce_C_D)        0.029    15.275    u_giftcofb/gift_in_reg[28]
+                         net (fo=14535, routed)       1.727    15.149    u_giftcofb/clk_IBUF_BUFG
+    SLICE_X75Y49         FDCE                                         r  u_giftcofb/L_reg[46]/C
+                         clock pessimism              0.195    15.345    
+                         clock uncertainty           -0.035    15.309    
+    SLICE_X75Y49         FDCE (Setup_fdce_C_CE)      -0.205    15.104    u_giftcofb/L_reg[46]
   -------------------------------------------------------------------
-                         required time                         15.275    
-                         arrival time                         -15.210    
+                         required time                         15.104    
+                         arrival time                         -14.498    
   -------------------------------------------------------------------
-                         slack                                  0.065    
-
-Slack (MET) :             0.103ns  (required time - arrival time)
-  Source:                 u_giftcofb/remaining_msg_reg[1]/C
-                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            u_giftcofb/gift_in_reg[89]/D
-                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
-  Data Path Delay:        9.866ns  (logic 1.200ns (12.163%)  route 8.666ns (87.837%))
-  Logic Levels:           6  (LUT4=2 LUT5=1 LUT6=3)
-  Clock Path Skew:        -0.024ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.092ns = ( 15.092 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.304ns
-    Clock Pessimism Removal (CPR):    0.188ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk rise edge)        0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           2.025     3.506    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.702     5.304    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X83Y130        FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X83Y130        FDCE (Prop_fdce_C_Q)         0.456     5.760 r  u_giftcofb/remaining_msg_reg[1]/Q
-                         net (fo=10, routed)          0.999     6.760    u_giftcofb/remaining_msg_reg_n_0_[1]
-    SLICE_X83Y132        LUT4 (Prop_lut4_I3_O)        0.124     6.884 f  u_giftcofb/is_last_msg_i_3/O
-                         net (fo=75, routed)          0.851     7.734    u_giftcofb/is_last_msg_i_3_n_0
-    SLICE_X86Y132        LUT5 (Prop_lut5_I0_O)        0.124     7.858 r  u_giftcofb/data_out[70]_i_5/O
-                         net (fo=70, routed)          1.390     9.248    u_giftcofb/data_out[70]_i_5_n_0
-    SLICE_X79Y134        LUT4 (Prop_lut4_I1_O)        0.124     9.372 r  u_giftcofb/data_out[70]_i_2/O
-                         net (fo=142, routed)         4.103    13.476    u_giftcofb/data_out[70]_i_2_n_0
-    SLICE_X69Y195        LUT6 (Prop_lut6_I0_O)        0.124    13.600 r  u_giftcofb/data_out[89]_i_2/O
-                         net (fo=2, routed)           0.658    14.258    u_giftcofb/u_phop_msg/pho1_inst/pad_inst/phop_M[75]
-    SLICE_X69Y194        LUT6 (Prop_lut6_I5_O)        0.124    14.382 r  u_giftcofb/u_phop_msg/pho1_inst/pad_inst/gift_in[89]_i_2/O
-                         net (fo=1, routed)           0.665    15.047    u_giftcofb/pho1_inst/M_padded_0[89]
-    SLICE_X69Y194        LUT6 (Prop_lut6_I0_O)        0.124    15.171 r  u_giftcofb/gift_in[89]_i_1/O
-                         net (fo=1, routed)           0.000    15.171    u_giftcofb/gift_in[89]_i_1_n_0
-    SLICE_X69Y194        FDCE                                         r  u_giftcofb/gift_in_reg[89]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk rise edge)       10.000    10.000 r  
-    E3                                                0.000    10.000 r  clk (IN)
-                         net (fo=0)                   0.000    10.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           1.920    13.331    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.670    15.092    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X69Y194        FDCE                                         r  u_giftcofb/gift_in_reg[89]/C
-                         clock pessimism              0.188    15.280    
-                         clock uncertainty           -0.035    15.245    
-    SLICE_X69Y194        FDCE (Setup_fdce_C_D)        0.029    15.274    u_giftcofb/gift_in_reg[89]
-  -------------------------------------------------------------------
-                         required time                         15.274    
-                         arrival time                         -15.171    
-  -------------------------------------------------------------------
-                         slack                                  0.103    
-
-Slack (MET) :             0.104ns  (required time - arrival time)
-  Source:                 u_giftcofb/remaining_msg_reg[1]/C
-                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            u_giftcofb/gift_in_reg[88]/D
-                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
-  Data Path Delay:        9.868ns  (logic 0.952ns (9.648%)  route 8.916ns (90.352%))
-  Logic Levels:           4  (LUT4=1 LUT6=3)
-  Clock Path Skew:        -0.024ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.092ns = ( 15.092 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.304ns
-    Clock Pessimism Removal (CPR):    0.188ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk rise edge)        0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           2.025     3.506    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.702     5.304    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X83Y130        FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X83Y130        FDCE (Prop_fdce_C_Q)         0.456     5.760 f  u_giftcofb/remaining_msg_reg[1]/Q
-                         net (fo=10, routed)          0.999     6.760    u_giftcofb/remaining_msg_reg_n_0_[1]
-    SLICE_X83Y132        LUT4 (Prop_lut4_I3_O)        0.124     6.884 r  u_giftcofb/is_last_msg_i_3/O
-                         net (fo=75, routed)          0.867     7.751    u_giftcofb/is_last_msg_i_3_n_0
-    SLICE_X85Y132        LUT6 (Prop_lut6_I5_O)        0.124     7.875 r  u_giftcofb/gift_in[126]_i_5/O
-                         net (fo=154, routed)         6.404    14.279    u_giftcofb/u_pho_msg/pho1_inst/pad_inst/gift_in_reg[16]
-    SLICE_X67Y193        LUT6 (Prop_lut6_I2_O)        0.124    14.403 r  u_giftcofb/u_pho_msg/pho1_inst/pad_inst/gift_in[88]_i_3/O
-                         net (fo=1, routed)           0.645    15.048    u_giftcofb/pho1_inst/M_padded[88]
-    SLICE_X65Y193        LUT6 (Prop_lut6_I2_O)        0.124    15.172 r  u_giftcofb/gift_in[88]_i_1/O
-                         net (fo=1, routed)           0.000    15.172    u_giftcofb/gift_in[88]_i_1_n_0
-    SLICE_X65Y193        FDCE                                         r  u_giftcofb/gift_in_reg[88]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk rise edge)       10.000    10.000 r  
-    E3                                                0.000    10.000 r  clk (IN)
-                         net (fo=0)                   0.000    10.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           1.920    13.331    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.670    15.092    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X65Y193        FDCE                                         r  u_giftcofb/gift_in_reg[88]/C
-                         clock pessimism              0.188    15.280    
-                         clock uncertainty           -0.035    15.245    
-    SLICE_X65Y193        FDCE (Setup_fdce_C_D)        0.031    15.276    u_giftcofb/gift_in_reg[88]
-  -------------------------------------------------------------------
-                         required time                         15.276    
-                         arrival time                         -15.172    
-  -------------------------------------------------------------------
-                         slack                                  0.104    
-
-Slack (MET) :             0.122ns  (required time - arrival time)
-  Source:                 u_giftcofb/remaining_msg_reg[1]/C
-                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            u_giftcofb/gift_in_reg[90]/D
-                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Path Group:             clk
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            10.000ns  (clk rise@10.000ns - clk rise@0.000ns)
-  Data Path Delay:        9.899ns  (logic 1.200ns (12.122%)  route 8.699ns (87.878%))
-  Logic Levels:           6  (LUT4=2 LUT5=1 LUT6=3)
-  Clock Path Skew:        0.027ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    5.143ns = ( 15.143 - 10.000 ) 
-    Source Clock Delay      (SCD):    5.304ns
-    Clock Pessimism Removal (CPR):    0.188ns
-  Clock Uncertainty:      0.035ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Total Input Jitter      (TIJ):    0.000ns
-    Discrete Jitter          (DJ):    0.000ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk rise edge)        0.000     0.000 r  
-    E3                                                0.000     0.000 r  clk (IN)
-                         net (fo=0)                   0.000     0.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         1.482     1.482 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           2.025     3.506    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.096     3.602 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.702     5.304    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X83Y130        FDCE                                         r  u_giftcofb/remaining_msg_reg[1]/C
-  -------------------------------------------------------------------    -------------------
-    SLICE_X83Y130        FDCE (Prop_fdce_C_Q)         0.456     5.760 r  u_giftcofb/remaining_msg_reg[1]/Q
-                         net (fo=10, routed)          0.999     6.760    u_giftcofb/remaining_msg_reg_n_0_[1]
-    SLICE_X83Y132        LUT4 (Prop_lut4_I3_O)        0.124     6.884 f  u_giftcofb/is_last_msg_i_3/O
-                         net (fo=75, routed)          0.851     7.734    u_giftcofb/is_last_msg_i_3_n_0
-    SLICE_X86Y132        LUT5 (Prop_lut5_I0_O)        0.124     7.858 r  u_giftcofb/data_out[70]_i_5/O
-                         net (fo=70, routed)          1.390     9.248    u_giftcofb/data_out[70]_i_5_n_0
-    SLICE_X79Y134        LUT4 (Prop_lut4_I1_O)        0.124     9.372 r  u_giftcofb/data_out[70]_i_2/O
-                         net (fo=142, routed)         4.030    13.403    u_giftcofb/data_out[70]_i_2_n_0
-    SLICE_X74Y198        LUT6 (Prop_lut6_I0_O)        0.124    13.527 r  u_giftcofb/data_out[90]_i_2/O
-                         net (fo=2, routed)           0.843    14.370    u_giftcofb/u_phop_msg/pho1_inst/pad_inst/phop_M[76]
-    SLICE_X73Y199        LUT6 (Prop_lut6_I5_O)        0.124    14.494 r  u_giftcofb/u_phop_msg/pho1_inst/pad_inst/gift_in[90]_i_2/O
-                         net (fo=1, routed)           0.585    15.079    u_giftcofb/pho1_inst/M_padded_0[90]
-    SLICE_X72Y199        LUT6 (Prop_lut6_I0_O)        0.124    15.203 r  u_giftcofb/gift_in[90]_i_1/O
-                         net (fo=1, routed)           0.000    15.203    u_giftcofb/gift_in[90]_i_1_n_0
-    SLICE_X72Y199        FDCE                                         r  u_giftcofb/gift_in_reg[90]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk rise edge)       10.000    10.000 r  
-    E3                                                0.000    10.000 r  clk (IN)
-                         net (fo=0)                   0.000    10.000    clk
-    E3                   IBUF (Prop_ibuf_I_O)         1.411    11.411 r  clk_IBUF_inst/O
-                         net (fo=1, routed)           1.920    13.331    clk_IBUF
-    BUFGCTRL_X0Y16       BUFG (Prop_bufg_I_O)         0.091    13.422 r  clk_IBUF_BUFG_inst/O
-                         net (fo=14535, routed)       1.721    15.143    u_giftcofb/clk_IBUF_BUFG
-    SLICE_X72Y199        FDCE                                         r  u_giftcofb/gift_in_reg[90]/C
-                         clock pessimism              0.188    15.331    
-                         clock uncertainty           -0.035    15.296    
-    SLICE_X72Y199        FDCE (Setup_fdce_C_D)        0.029    15.325    u_giftcofb/gift_in_reg[90]
-  -------------------------------------------------------------------
-                         required time                         15.325    
-                         arrival time                         -15.203    
-  -------------------------------------------------------------------
-                         slack                                  0.122    
+                         slack                                  0.606    
 
 
 
