@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
-| Date         : Sun Mar  8 18:13:44 2026
+| Date         : Wed Mar 11 19:58:12 2026
 | Host         : minhanh-VMware-Virtual-Platform running 64-bit Ubuntu 24.04.3 LTS
 | Command      : report_utilization -hierarchical -hierarchical_depth 3 -file report_util_full.txt
 | Design       : system
@@ -22,30 +22,26 @@ Table of Contents
 +------------------+---------------------+------------+------------+---------+------+------+--------+--------+------------+
 |     Instance     |        Module       | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs | RAMB36 | RAMB18 | DSP Blocks |
 +------------------+---------------------+------------+------------+---------+------+------+--------+--------+------------+
-| system           |               (top) |      11419 |       7279 |    4140 |    0 | 6396 |      0 |      0 |          0 |
-|   (system)       |               (top) |       4101 |          5 |    4096 |    0 | 2024 |      0 |      0 |          0 |
-|   boot           |       sd_bootloader |        316 |        316 |       0 |    0 |   65 |      0 |      0 |          0 |
-|   picorv32_core  |            picorv32 |       1912 |       1868 |      44 |    0 |  509 |      0 |      0 |          0 |
-|   sd_init        |       sd_controller |         81 |         81 |       0 |    0 |   57 |      0 |      0 |          0 |
-|   sd_reader      |       sd_read_block |         54 |         54 |       0 |    0 |   54 |      0 |      0 |          0 |
-|   spi_arb        |         spi_arbiter |          4 |          4 |       0 |    0 |    0 |      0 |      0 |          0 |
-|   spi_master     |       sd_spi_master |         46 |         46 |       0 |    0 |   49 |      0 |      0 |          0 |
-|   u_giftcofb     |           cofb_core |       1486 |       1486 |       0 |    0 |  996 |      0 |      0 |          0 |
-|     (u_giftcofb) |           cofb_core |        773 |        773 |       0 |    0 |  604 |      0 |      0 |          0 |
-|     u_gift       | gift128_encrypt_top |        467 |        467 |       0 |    0 |  392 |      0 |      0 |          0 |
+| system           |               (top) |      15855 |       7619 |    8236 |    0 | 6255 |      0 |      0 |          0 |
+|   (system)       |               (top) |       8197 |          5 |    8192 |    0 | 2044 |      0 |      0 |          0 |
+|   picorv32_core  |            picorv32 |       2598 |       2554 |      44 |    0 |  527 |      0 |      0 |          0 |
+|   u_giftcofb     |           cofb_core |       1460 |       1460 |       0 |    0 |  996 |      0 |      0 |          0 |
+|     (u_giftcofb) |           cofb_core |        741 |        741 |       0 |    0 |  604 |      0 |      0 |          0 |
+|     u_gift       | gift128_encrypt_top |        471 |        471 |       0 |    0 |  392 |      0 |      0 |          0 |
 |     u_pho_msg    |                 pho |        120 |        120 |       0 |    0 |    0 |      0 |      0 |          0 |
 |       pho1_inst  |              pho1_0 |        120 |        120 |       0 |    0 |    0 |      0 |      0 |          0 |
 |     u_phop_msg   |            phoprime |        127 |        127 |       0 |    0 |    0 |      0 |      0 |          0 |
 |       pho1_inst  |                pho1 |        127 |        127 |       0 |    0 |    0 |      0 |      0 |          0 |
 |     u_tri2       |   triple_half_block |          1 |          1 |       0 |    0 |    0 |      0 |      0 |          0 |
-|   u_jambu        |      tinyjambu_core |       1151 |       1151 |       0 |    0 |  939 |      0 |      0 |          0 |
+|   u_jambu        |      tinyjambu_core |       1156 |       1156 |       0 |    0 |  939 |      0 |      0 |          0 |
 |     u_dp         |  tinyjambu_datapath |        311 |        311 |       0 |    0 |  753 |      0 |      0 |          0 |
 |     u_fsm        |       tinyjambu_fsm |        727 |        727 |       0 |    0 |   58 |      0 |      0 |          0 |
 |     u_nlfsr      |     tinyjambu_nlfsr |        118 |        118 |       0 |    0 |  128 |      0 |      0 |          0 |
-|   u_xoodyak      |         xoodyakcore |       2175 |       2175 |       0 |    0 | 1572 |      0 |      0 |          0 |
-|     (u_xoodyak)  |         xoodyakcore |        140 |        140 |       0 |    0 | 1180 |      0 |      0 |          0 |
-|     u_xoodoo     |              xoodoo |       2036 |       2036 |       0 |    0 |  392 |      0 |      0 |          0 |
-|   uart_inst      |          simpleuart |         95 |         95 |       0 |    0 |  131 |      0 |      0 |          0 |
+|   u_sdspi        |   simple_spi_master |         62 |         62 |       0 |    0 |   46 |      0 |      0 |          0 |
+|   u_xoodyak      |         xoodyakcore |       2291 |       2291 |       0 |    0 | 1572 |      0 |      0 |          0 |
+|     (u_xoodyak)  |         xoodyakcore |        141 |        141 |       0 |    0 | 1180 |      0 |      0 |          0 |
+|     u_xoodoo     |              xoodoo |       2154 |       2154 |       0 |    0 |  392 |      0 |      0 |          0 |
+|   uart_inst      |          simpleuart |         94 |         94 |       0 |    0 |  131 |      0 |      0 |          0 |
 +------------------+---------------------+------------+------------+---------+------+------+--------+--------+------------+
 * Note: The sum of lower-level cells may be larger than their parent cells total, due to cross-hierarchy LUT combining
 

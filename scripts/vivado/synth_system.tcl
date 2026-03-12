@@ -1,14 +1,5 @@
 read_verilog system.v
-# ── SD Card modules ──────────────────────────────────────────────────
-read_verilog sd_spi_master.v
-read_verilog sd_controller.v
-read_verilog sd_read_block.v
-read_verilog sd_bootloader.v
-read_verilog spi_arbiter.v
-read_verilog ram_arbiter.v
-
-
-
+read_verilog ../../picosoc/simple_spi_master.v
 read_verilog ../../picorv32.v
 read_verilog ../../picosoc/simpleuart.v
 
@@ -22,8 +13,6 @@ read_verilog ../../picosoc/Xoodyak_old/xoodoo_n_rounds.v
 read_verilog ../../picosoc/Xoodyak_old/xoodoo_rc.v
 read_verilog ../../picosoc/Xoodyak_old/xoodoo_round.v
 read_verilog ../../picosoc/Xoodyak_old/xoodyakcore.v
-
-
 
 read_verilog ../../picosoc/GIFT_COFB/cofb_core.v
 read_verilog ../../picosoc/GIFT_COFB/double_half_block.v
@@ -43,7 +32,6 @@ read_verilog ../../picosoc/GIFT_COFB/triple_half_block.v
 read_verilog ../../picosoc/GIFT_COFB/xor_block.v
 read_verilog ../../picosoc/GIFT_COFB/xor_topbar_block.v
 
-
 read_xdc synth_system.xdc
 
 synth_design -part XC7A100TCSG324-1 -top system
@@ -57,20 +45,19 @@ report_timing
 write_verilog -force synth_system.v
 write_bitstream -force synth_system.bit
 # write_mem_info -force synth_system.mmi
-# ── Full system reports ──────────────────────────────────────────────
+# -- Full system reports -----------------------------------------------
 
-# ── Per-core utilization reports ─────────────────────────────────────
+# -- Per-core utilization reports --------------------------------------
 report_utilization -hierarchical -hierarchical_depth 3 -file report_util_full.txt
 
 report_utilization -cells [get_cells u_jambu]    -file report_util_tinyjambu.txt
 report_utilization -cells [get_cells u_xoodyak]  -file report_util_xoodyak.txt
 report_utilization -cells [get_cells u_giftcofb] -file report_util_giftcofb.txt
 
-# ── Per-core timing reports ──────────────────────────────────────────
+# -- Per-core timing reports -------------------------------------------
 report_timing -from [get_cells u_jambu/*]    -to [get_cells u_jambu/*]    -max_paths 10 -file report_timing_tinyjambu.txt
 report_timing -from [get_cells u_xoodyak/*]  -to [get_cells u_xoodyak/*]  -max_paths 10 -file report_timing_xoodyak.txt
 report_timing -from [get_cells u_giftcofb/*] -to [get_cells u_giftcofb/*] -max_paths 10 -file report_timing_giftcofb.txt
 
-# ── Summary timing ───────────────────────────────────────────────────
+# -- Summary timing ----------------------------------------------------
 report_timing_summary -file report_timing_summary.txt
-

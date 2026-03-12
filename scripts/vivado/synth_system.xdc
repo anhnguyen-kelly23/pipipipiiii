@@ -96,17 +96,21 @@ set_property IOSTANDARD LVCMOS33 [get_ports {out_byte_en}]
 set_property CONFIG_VOLTAGE 3.3 [current_design]
 set_property CFGBVS VCCO [current_design]
 
-## SD Card (SPI Mode) - PMOD JA
-## Kết nối từ phải sang trái: CS, MOSI, MISO, CLK, GND, VCC
-## ============================================
-set_property PACKAGE_PIN G13 [get_ports sd_cs]
-set_property IOSTANDARD LVCMOS33 [get_ports sd_cs]
+## SD Card SPI – Pmod JA (hàng trên)
+## Phải → Trái: VCC, GND, CLK, MISO, MOSI, CS
 
-set_property PACKAGE_PIN B11 [get_ports sd_mosi]
-set_property IOSTANDARD LVCMOS33 [get_ports sd_mosi]
+# JA1 (G13) → CS_N
+set_property PACKAGE_PIN G13 [get_ports {sd_cs_n}]
+set_property IOSTANDARD LVCMOS33 [get_ports {sd_cs_n}]
 
-set_property PACKAGE_PIN A11 [get_ports sd_miso]
-set_property IOSTANDARD LVCMOS33 [get_ports sd_miso]
+# JA2 (B11) → MOSI
+set_property PACKAGE_PIN B11 [get_ports {sd_mosi}]
+set_property IOSTANDARD LVCMOS33 [get_ports {sd_mosi}]
 
-set_property PACKAGE_PIN D12 [get_ports sd_clk]
-set_property IOSTANDARD LVCMOS33 [get_ports sd_clk]
+# JA3 (A11) → MISO
+set_property PACKAGE_PIN A11 [get_ports {sd_miso}]
+set_property IOSTANDARD LVCMOS33 [get_ports {sd_miso}]
+
+# JA4 (D12) → SCK
+set_property PACKAGE_PIN D12 [get_ports {sd_sck}]
+set_property IOSTANDARD LVCMOS33 [get_ports {sd_sck}]
