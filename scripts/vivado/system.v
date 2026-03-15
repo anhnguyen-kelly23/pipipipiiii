@@ -1,7 +1,7 @@
 `timescale 1 ns / 1 ps
 // MEMORY MAP
 //   0x0000_0000 – 0x0000_0FFF  Boot BRAM  4 KB  (bootloader, RO)
-//   0x0001_0000 – 0x0001_FFFF  App  BRAM 16 KB  (loaded from SD)
+//   0x0001_0000 – 0x0001_3FFF  App  BRAM 16 KB  (loaded from SD)
 //   0x1000_0000                LED  out_byte     W
 //   0x1000_0004                UART TX Data      W
 //   0x1000_0008                UART RX Data      R
